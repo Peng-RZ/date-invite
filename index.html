@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>约会邀请 ♥</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    input { font-family: inherit; }
+
+    .app {
+      position: relative;
+      min-height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      background: linear-gradient(135deg, #fdf2f8 0%, #fff1f2 50%, #fffbeb 100%);
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+    .app.loaded { opacity: 1; }
+
+    .heart-particles {
+      position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;
+    }
+    .heart-particle {
+      position: absolute; bottom: 0; color: #f472b6;
+      animation-name: float-up;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      user-select: none;
+    }
+    @keyframes float-up {
+      0% { transform: translateY(20px) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+
+    .progress-wrap {
+      position: fixed; top: 16px; left: 0; right: 0; z-index: 30;
+      display: flex; justify-content: center; padding-top: 8px;
+    }
+    .progress-bar {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      padding: 8px 16px; border-radius: 9999px;
+      border: 1px solid #fce7f3; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .dots { display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .dot {
+      width: 10px; height: 10px; border-radius: 9999px;
+      background: #fbcfe8; transition: all 0.3s ease; opacity: 0.6;
+    }
+    .dot.done { background: #f9a8d4; opacity: 1; }
+    .dot.active {
+      width: 12px; height: 12px; background: #ec4899;
+      transform: scale(1.25); box-shadow: 0 0 8px rgba(236,72,153,0.4); opacity: 1;
+    }
+
+    main {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; width: 100%;
+      padding-top: 64px; padding-bottom: 32px;
+    }
+    .step-container {
+      width: 100%; max-width: 448px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: center;
+      min-height: calc(100vh - 6rem); padding: 0 16px; position: relative;
+    }
+    .page {
+      width: 100%; opacity: 0; transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      position: absolute; top: 0; left: 0; right: 0; pointer-events: none;
+    }
+    .page.active {
+      opacity: 1; transform: translateY(0);
+      position: relative; pointer-events: auto;
+    }
+
+    .back-btn {
+      position: absolute; top: 16px; left: 16px; z-index: 20;
+      display: flex; align-items: center; gap: 4px;
+      height: 44px; padding: 0 12px; border-radius: 9999px;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      color: #ec4899; font-size: 14px; font-weight: 500;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border: 1px solid #fce7f3; transition: all 0.2s ease;
+    }
+    .back-btn:active { transform: scale(0.95); }
+    .back-btn:hover { background: #fdf2f8; }
+    .back-btn svg { width: 20px; height: 20px; }
+
+    .step1-wrap {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;
+    }
+    .step1-title {
+      font-size: clamp(22px, 5vw, 30px); font-weight: 700;
+      color: #db2777; text-align: center;
+      margin-bottom: 40px; min-height: 3rem; line-height: 1.6; padding: 0 16px;
+    }
+    .type-cursor {
+      display: inline-block; width: 2px; height: 1.4em;
+      background: #f472b6; margin-left: 2px; vertical-align: middle;
+      animation: blink 0.8s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    .button-area {
+      position: relative; width: 100%; max-width: 384px;
+      height: 256px; margin: 0 16px; touch-action: none;
+    }
+    .btn-yes {
+      position: absolute; z-index: 20; height: 56px; padding: 0 32px;
+      border-radius: 9999px; color: white; font-weight: 700; font-size: 18px;
+      background: linear-gradient(to right, #f472b6, #ec4899);
+      box-shadow: 0 10px 25px -5px rgba(244,114,182,0.5);
+      transition: transform 0.36s ease-out, background 0.3s ease;
+      transform-origin: center center; white-space: nowrap;
+      animation: heart-glow-pulse 1.2s ease-in-out infinite;
+    }
+    .btn-yes:hover { background: linear-gradient(to right, #ec4899, #db2777); }
+    .btn-yes.left { left: 0; top: 50%; transform: translateY(-50%) scale(var(--yes-scale, 1)); }
+    .btn-yes.center { left: 50%; top: 50%; transform: translate(-50%, -50%) scale(var(--yes-scale, 1)); }
+    @keyframes heart-glow-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(251,113,133,0.6), 0 10px 25px -5px rgba(251,113,133,0.4); }
+      50% { box-shadow: 0 0 0 12px rgba(251,113,133,0), 0 10px 30px -3px rgba(251,113,133,0.5); }
+    }
+
+    .btn-no {
+      position: absolute; z-index: 10; height: 56px; padding: 0 32px;
+      border-radius: 9999px; font-weight: 500; font-size: 18px;
+      background: white; color: #ec4899; border: 2px solid #fbcfe8;
+      transition: all 0.36s ease-out; transform-origin: center center; white-space: nowrap;
+    }
+    .btn-no.right { right: 0; top: 50%; transform: translateY(-50%) scale(var(--no-scale, 1)); }
+    .btn-no:hover { background: #fdf2f8; }
+
+    .broken-heart {
+      position: absolute; pointer-events: none; font-size: 24px; z-index: 30;
+      transform: translateX(-50%); animation: broken-heart-float 1.2s ease-out forwards;
+    }
+    @keyframes broken-heart-float {
+      0% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(-80px) scale(0.8); }
+    }
+
+    .hint-text {
+      margin-top: 32px; font-size: 14px; color: #f472b6;
+      animation: hint-pulse 2s ease-in-out infinite;
+    }
+    @keyframes hint-pulse { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
+
+    .confetti-canvas {
+      position: fixed; inset: 0; pointer-events: none; z-index: 50;
+    }
+
+    .step2-wrap {
+      position: relative; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; width: 100%; padding: 0 16px;
+    }
+    .shy-emoji-wrap {
+      position: relative; margin-bottom: 32px;
+      animation: float-y 3s ease-in-out infinite;
+    }
+    .shy-emoji { font-size: clamp(80px, 20vw, 120px); user-select: none; }
+    .blush {
+      position: absolute; transition: opacity 1s ease-in-out; opacity: 0;
+    }
+    .blush.show { opacity: 1; }
+    .blush-cheek {
+      position: absolute; width: 24px; height: 16px; border-radius: 9999px;
+      background: rgba(244,114,182,0.5); filter: blur(4px);
+    }
+    .blush-cheek.left { top: 55%; left: 22%; }
+    .blush-cheek.right { top: 55%; right: 22%; }
+    @keyframes float-y { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+
+    .step2-text { text-align: center; margin-bottom: 40px; }
+    .step2-line1, .step2-line2 {
+      transition: all 0.7s ease; opacity: 0; transform: translateY(16px);
+    }
+    .step2-line1.show, .step2-line2.show { opacity: 1; transform: translateY(0); }
+    .step2-line1 {
+      font-size: clamp(20px, 5vw, 24px); font-weight: 600;
+      color: #db2777; margin-bottom: 12px;
+    }
+    .step2-line2 { font-size: clamp(18px, 4.5vw, 20px); color: #ec4899; }
+
+    .btn-continue {
+      position: relative; overflow: hidden; height: 56px; padding: 0 40px;
+      border-radius: 9999px; color: white; font-weight: 700; font-size: 18px;
+      background: linear-gradient(to right, #f472b6, #fb7185);
+      box-shadow: 0 10px 25px -5px rgba(244,114,182,0.4);
+      transition: all 0.5s ease; opacity: 0; transform: translateY(16px);
+    }
+    .btn-continue.show { opacity: 1; transform: translateY(0); }
+    .btn-continue:hover { background: linear-gradient(to right, #ec4899, #f43f5e); }
+    .btn-continue span { position: relative; z-index: 1; }
+    .shine {
+      position: absolute; inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+      animation: shine 2.5s ease-in-out infinite; pointer-events: none;
+    }
+    @keyframes shine { 0%{transform:translateX(-100%);} 100%{transform:translateX(200%);} }
+
+    .step3-wrap {
+      position: relative; display: flex; flex-direction: column;
+      align-items: center; width: 100%; padding: 64px 16px 0;
+    }
+    .page-title {
+      font-size: 24px; font-weight: 700; color: #db2777;
+      text-align: center; margin-bottom: 8px;
+    }
+    .page-subtitle {
+      font-size: 14px; color: #f472b6; text-align: center; margin-bottom: 32px;
+    }
+    .form-wrap { width: 100%; max-width: 384px; }
+    .form-group { margin-bottom: 24px; }
+    .form-label {
+      display: block; font-size: 14px; font-weight: 500;
+      color: #db2777; margin-bottom: 8px;
+    }
+    .form-input {
+      width: 100%; height: 48px; padding: 0 16px; border-radius: 12px;
+      border: 2px solid #fbcfe8; background: white; color: #831843;
+      font-size: 16px; transition: all 0.2s ease; outline: none;
+    }
+    .form-input:focus {
+      border-color: #f472b6; box-shadow: 0 0 0 4px rgba(251,207,232,0.5);
+    }
+    .days-hint { font-size: 14px; color: #f472b6; text-align: center; margin-top: 8px; }
+
+    .quick-times {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding-top: 8px;
+    }
+    .quick-time-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      padding: 8px 4px; border-radius: 12px; border: 1px solid #fce7f3;
+      background: white; color: #f472b6; font-size: 12px; transition: all 0.2s ease;
+    }
+    .quick-time-btn:hover { border-color: #fbcfe8; background: #fdf2f8; }
+    .quick-time-btn.active {
+      border-color: #f472b6; background: #fdf2f8; color: #db2777;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .quick-time-btn .emoji { font-size: 18px; }
+    .quick-time-btn .label { font-weight: 500; font-size: 12px; }
+    .quick-time-btn .time { font-size: 10px; color: #f472b6; }
+
+    .btn-confirm {
+      width: 100%; height: 56px; border-radius: 9999px;
+      font-weight: 700; font-size: 18px; transition: all 0.3s ease;
+    }
+    .btn-confirm.enabled {
+      background: linear-gradient(to right, #f472b6, #fb7185); color: white;
+      box-shadow: 0 10px 25px -5px rgba(244,114,182,0.4);
+    }
+    .btn-confirm.enabled:hover { background: linear-gradient(to right, #ec4899, #f43f5e); }
+    .btn-confirm.enabled:active { transform: scale(0.98); }
+    .btn-confirm.disabled {
+      background: #e5e7eb; color: #9ca3af; cursor: not-allowed; box-shadow: none;
+    }
+
+    .step4-wrap {
+      position: relative; display: flex; flex-direction: column;
+      align-items: center; width: 100%; padding: 64px 16px 16px;
+    }
+    .food-grid {
+      width: 100%; max-width: 448px;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px; margin-bottom: 24px;
+    }
+    .food-card {
+      position: relative; display: flex; flex-direction: column; align-items: center;
+      gap: 4px; padding: 12px; border-radius: 16px;
+      border: 2px solid #fce7f3; background: white; transition: all 0.3s ease;
+    }
+    .food-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px -5px rgba(244,114,182,0.2);
+      border-color: #fbcfe8;
+    }
+    .food-card.selected {
+      border-color: #f472b6; background: #fdf2f8;
+      box-shadow: 0 4px 12px rgba(244,114,182,0.2); transform: scale(1.05);
+    }
+    .food-card.bounce { animation: bounce-once 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    @keyframes bounce-once {
+      0% { transform: scale(1); }
+      30% { transform: scale(0.9); }
+      60% { transform: scale(1.1); }
+      100% { transform: scale(1.05); }
+    }
+    .food-check {
+      position: absolute; top: 6px; right: 6px;
+      width: 20px; height: 20px; background: #ec4899; color: white;
+      border-radius: 9999px; display: flex; align-items: center; justify-content: center;
+      font-size: 11px; z-index: 1;
+    }
+    .food-glow {
+      position: absolute; inset: 0; border-radius: 16px;
+      background: rgba(249,168,212,0.2);
+      animation: pulse-glow 1.5s ease-in-out infinite; pointer-events: none;
+    }
+    @keyframes pulse-glow {
+      0%,100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+    .food-emoji { font-size: 32px; }
+    .food-name { font-size: 14px; font-weight: 600; color: #831843; }
+    .food-card.selected .food-name { color: #db2777; }
+    .food-desc { font-size: 10px; color: #f472b6; }
+
+    .btn-random {
+      display: flex; align-items: center; gap: 8px;
+      height: 48px; padding: 0 24px; border-radius: 9999px;
+      font-weight: 500; font-size: 14px;
+      border: 2px solid #fef08a; background: white; color: #ca8a04;
+      transition: all 0.2s ease;
+    }
+    .btn-random:hover { background: #fefce8; border-color: #fde047; }
+    .btn-random:active { transform: scale(0.95); }
+    .btn-random.spin .dice { animation: spin 0.5s linear infinite; }
+    @keyframes spin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+
+    .step5-wrap {
+      position: relative; display: flex; flex-direction: column;
+      align-items: center; width: 100%; padding: 64px 16px 24px;
+    }
+    .beating-heart {
+      position: relative; width: 72px; height: 72px;
+      margin-bottom: 24px; margin-top: 8px;
+      animation: heart-beat 1.5s ease-in-out infinite;
+    }
+    @keyframes heart-beat {
+      0%,100% { transform: scale(1); }
+      14% { transform: scale(1.15); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.1); }
+      70% { transform: scale(1); }
+    }
+    .heart-glow {
+      position: absolute; inset: 0; border-radius: 9999px;
+      filter: blur(20px); background: rgba(255,107,157,0.4);
+      transform: scale(1.5); animation: heart-glow 1.5s ease-in-out infinite;
+    }
+    @keyframes heart-glow {
+      0%,100% { opacity: 0.4; transform: scale(1.3); }
+      50% { opacity: 0.7; transform: scale(1.7); }
+    }
+    .heart-svg {
+      position: relative; width: 100%; height: 100%;
+      filter: drop-shadow(0 4px 12px rgba(236,72,153,0.3));
+    }
+
+    .info-cards { width: 100%; max-width: 384px; margin-bottom: 32px; }
+    .info-card {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px; border-radius: 16px; margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .info-card.pink { background: #fdf2f8; border: 1px solid #fce7f3; }
+    .info-card.amber { background: #fffbeb; border: 1px solid #fef3c7; }
+    .info-card.rose { background: #fff1f2; border: 1px solid #ffe4e6; }
+    .info-icon {
+      width: 40px; height: 40px; border-radius: 9999px;
+      background: white; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .info-icon svg { width: 20px; height: 20px; }
+    .info-icon.pink { color: #ec4899; }
+    .info-icon.amber { color: #f59e0b; }
+    .info-icon.rose { color: #f43f5e; }
+    .info-text { min-width: 0; flex: 1; }
+    .info-label { font-size: 12px; color: #f472b6; font-weight: 500; margin-bottom: 2px; }
+    .info-value {
+      font-size: 14px; font-weight: 600; color: #831843;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .btn-save {
+      position: relative; height: 56px; padding: 0 40px; border-radius: 9999px;
+      font-weight: 700; font-size: 18px;
+      background: linear-gradient(to right, #facc15, #f59e0b);
+      color: #78350f;
+      box-shadow: 0 10px 25px -5px rgba(251,191,36,0.4);
+      transition: all 0.3s ease;
+      animation: save-pulse 2s ease-in-out infinite;
+    }
+    .btn-save:hover { background: linear-gradient(to right, #facc15, #d97706); }
+    .btn-save:active { transform: scale(0.98); }
+    .btn-save:disabled { cursor: wait; opacity: 0.8; }
+    @keyframes save-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(251,191,36,0.6); }
+      50% { box-shadow: 0 0 0 12px rgba(251,191,36,0); }
+    }
+    .btn-save-content { display: flex; align-items: center; gap: 8px; }
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid rgba(120,53,15,0.3);
+      border-top-color: #78350f;
+      border-radius: 9999px; animation: spin 0.8s linear infinite;
+    }
+    .save-hint {
+      margin-top: 16px; font-size: 12px; color: #f472b6; text-align: center;
+    }
+
+    .toast-container {
+      position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+      z-index: 100; display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+    }
+    .toast {
+      background: rgba(255,255,255,0.95);
+      border: 1px solid #fbcfe8; border-radius: 12px;
+      color: #be185d; padding: 12px 20px;
+      font-size: 14px; font-weight: 500;
+      box-shadow: 0 10px 25px -5px rgba(236,72,153,0.2);
+      animation: toast-in 0.3s ease-out forwards;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    }
+    .toast.error {
+      border-color: #fecaca; color: #dc2626;
+      background: rgba(254,242,242,0.95);
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(-12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .toast.out { animation: toast-out 0.3s ease-in forwards; }
+    @keyframes toast-out {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-12px); }
+    }
+
+    .ripple-btn { position: relative; overflow: hidden; }
+    .ripple-effect {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      transform: scale(0);
+      animation: ripple-expand 0.6s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes ripple-expand { to { transform: scale(4); opacity: 0; } }
+
+    @media (min-width: 768px) {
+      .step1-title { font-size: 30px; }
+      .step2-line1 { font-size: 24px; }
+      .step2-line2 { font-size: 20px; }
+      .page-title { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <div class="heart-particles" id="heartParticles"></div>
+
+    <div class="progress-wrap">
+      <div class="progress-bar">
+        <div class="dots" id="progressDots"></div>
+      </div>
+    </div>
+
+    <canvas class="confetti-canvas" id="confettiCanvas"></canvas>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <main>
+      <div class="step-container" id="stepContainer">
+
+        <!-- Step 1 -->
+        <div class="page" id="step1">
+          <div class="step1-wrap">
+            <h1 class="step1-title" id="typeTitle"></h1>
+            <div class="button-area" id="buttonArea">
+              <button class="btn-yes left ripple-btn" id="btnYes" aria-label="愿意">愿意 ♥</button>
+              <button class="btn-no right ripple-btn" id="btnNo" aria-label="不要">不要</button>
+            </div>
+            <p class="hint-text">（提示：试试点"不要"？）</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="page" id="step2">
+          <div class="step2-wrap">
+            <button class="back-btn ripple-btn" data-back="1" aria-label="返回">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>返回</span>
+            </button>
+            <div class="shy-emoji-wrap">
+              <div class="shy-emoji">😊</div>
+              <div class="blush" id="blush">
+                <div class="blush-cheek left"></div>
+                <div class="blush-cheek right"></div>
+              </div>
+            </div>
+            <div class="step2-text">
+              <p class="step2-line1" id="line1">太棒啦！</p>
+              <p class="step2-line2" id="line2">我就知道你会答应的～</p>
+            </div>
+            <button class="btn-continue ripple-btn" id="btnContinue">
+              <span>继续 →</span>
+              <span class="shine"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="page" id="step3">
+          <div class="step3-wrap">
+            <button class="back-btn ripple-btn" data-back="2" aria-label="返回">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>返回</span>
+            </button>
+            <h2 class="page-title">选个时间吧 📅</h2>
+            <p class="page-subtitle">挑一个你方便的日子和时间</p>
+            <div class="form-wrap">
+              <div class="form-group">
+                <label for="dateInput" class="form-label">日期</label>
+                <input type="date" id="dateInput" class="form-input" />
+                <p class="days-hint" id="daysHint">距离约会还有 1 天 💗</p>
+              </div>
+              <div class="form-group">
+                <label for="timeInput" class="form-label">时间</label>
+                <input type="time" id="timeInput" class="form-input" value="17:00" />
+                <div class="quick-times" id="quickTimes">
+                  <button class="quick-time-btn ripple-btn" data-time="12:00">
+                    <span class="emoji">🍱</span><span class="label">午餐</span><span class="time">12:00</span>
+                  </button>
+                  <button class="quick-time-btn ripple-btn" data-time="15:00">
+                    <span class="emoji">🍰</span><span class="label">下午茶</span><span class="time">15:00</span>
+                  </button>
+                  <button class="quick-time-btn ripple-btn active" data-time="17:00">
+                    <span class="emoji">🍽️</span><span class="label">晚餐</span><span class="time">17:00</span>
+                  </button>
+                  <button class="quick-time-btn ripple-btn" data-time="21:00">
+                    <span class="emoji">🌙</span><span class="label">夜宵</span><span class="time">21:00</span>
+                  </button>
+                </div>
+              </div>
+              <button class="btn-confirm disabled ripple-btn" id="btnConfirm" disabled>确认 ✓</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="page" id="step4">
+          <div class="step4-wrap">
+            <button class="back-btn ripple-btn" data-back="3" aria-label="返回">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>返回</span>
+            </button>
+            <h2 class="page-title">想吃点什么？ 🍽️</h2>
+            <p class="page-subtitle">选一种你今天想吃的</p>
+            <div class="food-grid" id="foodGrid"></div>
+            <button class="btn-random ripple-btn" id="btnRandom">
+              <span class="dice">🎲</span>帮我选
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="page" id="step5">
+          <div class="step5-wrap">
+            <button class="back-btn ripple-btn" data-back="4" aria-label="返回">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>返回</span>
+            </button>
+            <div class="beating-heart">
+              <div class="heart-glow"></div>
+              <svg class="heart-svg" viewBox="0 0 24 24" fill="#FF6B9D" aria-hidden="true">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </div>
+            <h2 class="page-title">约会敲定啦！</h2>
+            <p class="page-subtitle">保存一下，留个纪念吧 ♥</p>
+            <div class="info-cards" id="infoCards"></div>
+            <button class="btn-save ripple-btn" id="btnSave">
+              <span class="btn-save-content">💾 保存约会</span>
+            </button>
+            <p class="save-hint">图片为 1080×1440 高清，可分享给朋友哦</p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ========== Data ==========
+    const FOODS = [
+      { id: '1', name: '火锅', emoji: '🍲', description: '热辣沸腾' },
+      { id: '2', name: '烤肉', emoji: '🥓', description: '滋滋冒油' },
+      { id: '3', name: '日料', emoji: '🍣', description: '精致鲜美' },
+      { id: '4', name: '西餐', emoji: '🍝', description: '浪漫优雅' },
+      { id: '5', name: '中餐', emoji: '🥢', description: '家常美味' },
+      { id: '6', name: '泰餐', emoji: '🍜', description: '酸辣开胃' },
+      { id: '7', name: '韩餐', emoji: '🍱', description: '丰富多样' },
+      { id: '8', name: '串串', emoji: '🍢', description: '撸串畅饮' },
+      { id: '9', name: '小龙虾', emoji: '🦞', description: '宵夜必备' },
+    ];
+
+    const NO_TEXTS = ['不要', '再想想嘛', '点不到我', '真的不要吗'];
+    const DIAGONAL_MAP = { 0: 2, 1: 3, 2: 0, 3: 1 };
+
+    let currentStep = 1;
+    const TOTAL_STEPS = 5;
+    let dateVal = '';
+    let timeVal = '17:00';
+    let selectedFood = null;
+
+    // Step1 state
+    let noTextIndex = 0;
+    let hasMoved = false;
+    let noCorner = 0;
+    let yesScale = 1;
+    let noScale = 1;
+    let brokenHeartId = 0;
+    let randomizing = false;
+
+    // ========== Utils: Ripple ==========
+    function addRipple(e) {
+      const button = e.currentTarget;
+      const rect = button.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple-effect';
+      ripple.style.width = size + 'px';
+      ripple.style.height = size + 'px';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      button.appendChild(ripple);
+      const remove = () => ripple.remove();
+      ripple.addEventListener('animationend', remove);
+      setTimeout(remove, 700);
+    }
+
+    function attachRipples() {
+      document.querySelectorAll('.ripple-btn').forEach(btn => {
+        if (btn._rippleAttached) return;
+        btn._rippleAttached = true;
+        btn.addEventListener('click', addRipple);
+      });
+    }
+
+    // ========== Toast ==========
+    function showToast(message, type, duration) {
+      type = type || 'success';
+      duration = duration || 2500;
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast' + (type === 'error' ? ' error' : '');
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.add('out');
+        setTimeout(() => toast.remove(), 300);
+      }, duration);
+    }
+
+    // ========== Heart Particles ==========
+    function initHeartParticles() {
+      const container = document.getElementById('heartParticles');
+      for (let i = 0; i < 12; i++) {
+        const span = document.createElement('span');
+        span.className = 'heart-particle';
+        span.style.left = Math.random() * 100 + '%';
+        span.style.fontSize = (Math.random() * 20 + 12) + 'px';
+        span.style.animationDuration = (Math.random() * 8 + 10) + 's';
+        span.style.animationDelay = (Math.random() * 12) + 's';
+        span.style.opacity = (Math.random() * 0.4 + 0.2);
+        span.textContent = '♥';
+        container.appendChild(span);
+      }
+    }
+
+    // ========== Progress Dots ==========
+    function initProgressDots() {
+      const container = document.getElementById('progressDots');
+      for (let i = 1; i <= TOTAL_STEPS; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'dot' + (i === 1 ? ' active' : '');
+        dot.type = 'button';
+        dot.setAttribute('aria-label', '第 ' + i + ' 步');
+        dot.tabIndex = -1;
+        dot.dataset.step = i;
+        container.appendChild(dot);
+      }
+    }
+
+    function updateProgressDots(step) {
+      const dots = document.querySelectorAll('#progressDots .dot');
+      dots.forEach((dot, i) => {
+        const s = i + 1;
+        dot.classList.toggle('active', s === step);
+        dot.classList.toggle('done', s < step);
+      });
+    }
+
+    // ========== Page Navigation ==========
+    function goToStep(step) {
+      const prev = document.getElementById('step' + currentStep);
+      const next = document.getElementById('step' + step);
+      if (!next) return;
+      prev.classList.remove('active');
+      setTimeout(() => { next.classList.add('active'); }, 50);
+      currentStep = step;
+      updateProgressDots(step);
+      if (step === 2) playStep2Animations();
+      if (step === 5) renderStep5();
+    }
+
+    // ========== Step 1 ==========
+    function initStep1() {
+      const title = '你愿意和我一起去约会吗？';
+      const titleEl = document.getElementById('typeTitle');
+      let i = 0;
+      titleEl.innerHTML = '<span class="type-cursor"></span>';
+      const timer = setInterval(() => {
+        i++;
+        titleEl.innerHTML = title.slice(0, i) + '<span class="type-cursor"></span>';
+        if (i >= title.length) clearInterval(timer);
+      }, 120);
+
+      document.getElementById('btnYes').addEventListener('click', handleYesClick);
+      document.getElementById('btnNo').addEventListener('click', handleNoClick);
+      window.addEventListener('resize', handleResize);
+    }
+
+    function calcCornerPos(corner) {
+      const area = document.getElementById('buttonArea');
+      const noBtn = document.getElementById('btnNo');
+      const areaRect = area.getBoundingClientRect();
+      const noRect = noBtn.getBoundingClientRect();
+      const padding = 10;
+      let x = padding, y = padding;
+      if (corner === 0) { x = padding; y = padding; }
+      else if (corner === 1) { x = areaRect.width - noRect.width - padding; y = padding; }
+      else if (corner === 2) { x = areaRect.width - noRect.width - padding; y = areaRect.height - noRect.height - padding; }
+      else { x = padding; y = areaRect.height - noRect.height - padding; }
+      return { x, y };
+    }
+
+    function handleResize() {
+      if (!hasMoved) return;
+      const pos = calcCornerPos(noCorner);
+      const btnNo = document.getElementById('btnNo');
+      btnNo.style.left = pos.x + 'px';
+      btnNo.style.top = pos.y + 'px';
+    }
+
+    function handleNoClick(e) {
+      // 碎心
+      const rect = e.currentTarget.getBoundingClientRect();
+      const areaRect = document.getElementById('buttonArea').getBoundingClientRect();
+      const id = brokenHeartId++;
+      const bh = document.createElement('span');
+      bh.className = 'broken-heart';
+      bh.style.left = (rect.left - areaRect.left + rect.width / 2) + 'px';
+      bh.style.top = (rect.top - areaRect.top) + 'px';
+      bh.textContent = '💔';
+      document.getElementById('buttonArea').appendChild(bh);
+      setTimeout(() => bh.remove(), 1200);
+
+      // 换文案
+      noTextIndex = (noTextIndex + 1) % NO_TEXTS.length;
+      e.currentTarget.textContent = NO_TEXTS[noTextIndex];
+
+      // 渐进缩放
+      yesScale = Math.min(yesScale + 0.08, 1.8);
+      noScale = Math.max(noScale - 0.05, 0.65);
+
+      const btnYes = document.getElementById('btnYes');
+      btnYes.style.setProperty('--yes-scale', yesScale);
+      e.currentTarget.style.setProperty('--no-scale', noScale);
+
+      // 旋转抖动
+      const rotateDir = Math.random() > 0.5 ? 5 : -5;
+
+      if (!hasMoved) {
+        const firstCorner = Math.floor(Math.random() * 4);
+        noCorner = firstCorner;
+        hasMoved = true;
+        btnYes.classList.remove('left');
+        btnYes.classList.add('center');
+        btnYes.style.setProperty('--yes-scale', yesScale);
+        e.currentTarget.classList.remove('right');
+        e.currentTarget.classList.add('moved');
+        requestAnimationFrame(() => {
+          const pos = calcCornerPos(firstCorner);
+          e.currentTarget.style.left = pos.x + 'px';
+          e.currentTarget.style.top = pos.y + 'px';
+          e.currentTarget.style.transform = 'scale(' + noScale + ') rotate(' + rotateDir + 'deg)';
+        });
+      } else {
+        const diag = DIAGONAL_MAP[noCorner];
+        const nextCorner = diag !== noCorner ? diag : (noCorner + 1) % 4;
+        noCorner = nextCorner;
+        const pos = calcCornerPos(nextCorner);
+        e.currentTarget.style.left = pos.x + 'px';
+        e.currentTarget.style.top = pos.y + 'px';
+        e.currentTarget.style.transform = 'scale(' + noScale + ') rotate(' + rotateDir + 'deg)';
+      }
+
+      setTimeout(() => {
+        const btnNo = document.getElementById('btnNo');
+        if (hasMoved) {
+          btnNo.style.transform = 'scale(' + noScale + ') rotate(0deg)';
+        } else {
+          btnNo.style.transform = 'translateY(-50%) scale(' + noScale + ') rotate(0deg)';
+        }
+      }, 360);
+    }
+
+    function handleYesClick() {
+      launchConfetti();
+      setTimeout(() => { goToStep(2); }, 2000);
+    }
+
+    // ========== Confetti ==========
+    let confettiRaf = 0;
+    function launchConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const COLORS = ['#FF6B9D', '#FFB347', '#FF8FAB', '#FFD93D', '#FF6B6B', '#A8E6CF', '#FFE66D', '#FF9FF3'];
+      const shapes = ['rect', 'circle', 'heart'];
+      const particles = [];
+      for (let i = 0; i < 120; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 4;
+        particles.push({
+          x: canvas.width / 2, y: canvas.height / 2,
+          vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 3,
+          size: Math.random() * 8 + 4,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)],
+          rotation: Math.random() * Math.PI * 2,
+          rotationSpeed: (Math.random() - 0.5) * 0.3,
+          shape: shapes[Math.floor(Math.random() * shapes.length)],
+        });
+      }
+
+      const startTime = performance.now();
+      const duration = 2000;
+      const gravity = 0.15;
+
+      function animate(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.vy += gravity;
+          p.x += p.vx; p.y += p.vy;
+          p.rotation += p.rotationSpeed;
+          const alpha = progress < 0.7 ? 1 : 1 - (progress - 0.7) / 0.3;
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle = p.color;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rotation);
+          if (p.shape === 'rect') ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 0.6);
+          else if (p.shape === 'circle') {
+            ctx.beginPath(); ctx.arc(0, 0, p.size/2, 0, Math.PI*2); ctx.fill();
+          } else {
+            const s = p.size;
+            ctx.beginPath();
+            ctx.moveTo(0, s * 0.3);
+            ctx.bezierCurveTo(0, 0, -s/2, 0, -s/2, s*0.3);
+            ctx.bezierCurveTo(-s/2, s*0.6, 0, s*0.7, 0, s);
+            ctx.bezierCurveTo(0, s*0.7, s/2, s*0.6, s/2, s*0.3);
+            ctx.bezierCurveTo(s/2, 0, 0, 0, 0, s*0.3);
+            ctx.fill();
+          }
+          ctx.restore();
+        });
+        ctx.globalAlpha = 1;
+        if (progress < 1) confettiRaf = requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      confettiRaf = requestAnimationFrame(animate);
+    }
+
+    // ========== Step 2 ==========
+    function playStep2Animations() {
+      const blush = document.getElementById('blush');
+      const line1 = document.getElementById('line1');
+      const line2 = document.getElementById('line2');
+      const btn = document.getElementById('btnContinue');
+      blush.classList.remove('show');
+      line1.classList.remove('show');
+      line2.classList.remove('show');
+      btn.classList.remove('show');
+      setTimeout(() => blush.classList.add('show'), 300);
+      setTimeout(() => line1.classList.add('show'), 600);
+      setTimeout(() => line2.classList.add('show'), 1200);
+      setTimeout(() => btn.classList.add('show'), 1800);
+    }
+
+    // ========== Step 3 ==========
+    function initStep3() {
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = String(today.getMonth() + 1).padStart(2, '0');
+      const d = String(today.getDate()).padStart(2, '0');
+      const todayStr = y + '-' + m + '-' + d;
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowStr = tomorrow.getFullYear() + '-' +
+        String(tomorrow.getMonth() + 1).padStart(2, '0') + '-' +
+        String(tomorrow.getDate()).padStart(2, '0');
+
+      const dateInput = document.getElementById('dateInput');
+      dateInput.min = todayStr;
+      dateInput.value = dateVal || tomorrowStr;
+      dateVal = dateInput.value;
+
+      const timeInput = document.getElementById('timeInput');
+      timeInput.value = timeVal;
+
+      updateDaysHint();
+      updateConfirmBtn();
+
+      dateInput.addEventListener('change', () => {
+        dateVal = dateInput.value;
+        updateDaysHint();
+        updateConfirmBtn();
+      });
+      timeInput.addEventListener('input', () => {
+        timeVal = timeInput.value;
+        updateQuickTimesActive();
+        updateConfirmBtn();
+      });
+      document.querySelectorAll('.quick-time-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          timeVal = btn.dataset.time;
+          timeInput.value = timeVal;
+          updateQuickTimesActive();
+          updateConfirmBtn();
+        });
+      });
+      document.getElementById('btnConfirm').addEventListener('click', () => {
+        if (!isStep3Valid()) return;
+        goToStep(4);
+      });
+    }
+
+    function updateQuickTimesActive() {
+      document.querySelectorAll('.quick-time-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.time === timeVal);
+      });
+    }
+
+    function updateDaysHint() {
+      const hint = document.getElementById('daysHint');
+      const target = new Date(dateVal);
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      target.setHours(0,0,0,0);
+      const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+      hint.textContent = diff === 0 ? '就是今天啦！' : '距离约会还有 ' + diff + ' 天 💗';
+    }
+
+    function isStep3Valid() {
+      if (!dateVal || !timeVal) return false;
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const target = new Date(dateVal);
+      target.setHours(0,0,0,0);
+      return target >= today;
+    }
+
+    function updateConfirmBtn() {
+      const btn = document.getElementById('btnConfirm');
+      const valid = isStep3Valid();
+      btn.classList.toggle('enabled', valid);
+      btn.classList.toggle('disabled', !valid);
+      btn.disabled = !valid;
+    }
+
+    // ========== Step 4 ==========
+    function initStep4() {
+      const grid = document.getElementById('foodGrid');
+      grid.innerHTML = '';
+      FOODS.forEach(food => {
+        const card = document.createElement('button');
+        card.className = 'food-card ripple-btn';
+        card.type = 'button';
+        card.setAttribute('aria-label', '选择' + food.name);
+        card.dataset.id = food.id;
+        card.innerHTML =
+          '<span class="food-emoji">' + food.emoji + '</span>' +
+          '<span class="food-name">' + food.name + '</span>' +
+          '<span class="food-desc">' + food.description + '</span>';
+        card.addEventListener('click', () => selectFood(food, card));
+        grid.appendChild(card);
+      });
+      if (selectedFood) {
+        const prev = grid.querySelector('[data-id="' + selectedFood.id + '"]');
+        if (prev) {
+          prev.classList.add('selected');
+          prev.insertAdjacentHTML('afterbegin', '<span class="food-check">✓</span><span class="food-glow"></span>');
+        }
+      }
+      document.getElementById('btnRandom').addEventListener('click', handleRandom);
+    }
+
+    function selectFood(food, cardEl) {
+      if (randomizing) return;
+      document.querySelectorAll('.food-card').forEach(c => {
+        c.classList.remove('selected', 'bounce');
+        const check = c.querySelector('.food-check'); if (check) check.remove();
+        const glow = c.querySelector('.food-glow'); if (glow) glow.remove();
+      });
+      cardEl.classList.add('selected', 'bounce');
+      cardEl.insertAdjacentHTML('afterbegin', '<span class="food-check">✓</span><span class="food-glow"></span>');
+      selectedFood = food;
+      setTimeout(() => { goToStep(5); }, 600);
+    }
+
+    function handleRandom() {
+      if (randomizing) return;
+      randomizing = true;
+      const btn = document.getElementById('btnRandom');
+      btn.classList.add('spin');
+      const cards = document.querySelectorAll('.food-card');
+      const totalSteps = 15;
+      let step = 0;
+
+      function highlight(idx) {
+        cards.forEach((c, i) => {
+          if (i === idx) {
+            c.classList.add('selected');
+            if (!c.querySelector('.food-check')) {
+              c.insertAdjacentHTML('afterbegin', '<span class="food-check">✓</span><span class="food-glow"></span>');
+            }
+          } else {
+            c.classList.remove('selected');
+            const check = c.querySelector('.food-check'); if (check) check.remove();
+            const glow = c.querySelector('.food-glow'); if (glow) glow.remove();
+          }
+        });
+      }
+
+      const interval = setInterval(() => {
+        step++;
+        highlight(Math.floor(Math.random() * FOODS.length));
+        if (step >= totalSteps) {
+          clearInterval(interval);
+          const finalIdx = Math.floor(Math.random() * FOODS.length);
+          const finalFood = FOODS[finalIdx];
+          highlight(finalIdx);
+          cards[finalIdx].classList.add('bounce');
+          selectedFood = finalFood;
+          setTimeout(() => {
+            btn.classList.remove('spin');
+            randomizing = false;
+            goToStep(5);
+          }, 600);
+        }
+      }, 80 + step * 15);
+    }
+
+    // ========== Step 5 ==========
+    function renderStep5() {
+      if (!selectedFood) return;
+      const container = document.getElementById('infoCards');
+      container.innerHTML = '';
+      const items = [
+        {
+          type: 'pink', label: 'DATE',
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+          value: formatDisplayDate(dateVal) + ' ' + getWeekday(dateVal),
+        },
+        {
+          type: 'amber', label: 'TIME',
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+          value: timeVal,
+        },
+        {
+          type: 'rose', label: 'MENU',
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>',
+          value: selectedFood.emoji + ' ' + selectedFood.name + ' · ' + selectedFood.description,
+        },
+      ];
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'info-card ' + item.type;
+        card.innerHTML =
+          '<div class="info-icon ' + item.type + '">' + item.icon + '</div>' +
+          '<div class="info-text"><div class="info-label">' + item.label + '</div>' +
+          '<div class="info-value">' + item.value + '</div></div>';
+        container.appendChild(card);
+      });
+      attachRipples();
+    }
+
+    function formatDisplayDate(dateStr) {
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) return dateStr;
+      return parts[0] + '年' + parseInt(parts[1], 10) + '月' + parseInt(parts[2], 10) + '日';
+    }
+    function getWeekday(dateStr) {
+      const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      return days[new Date(dateStr).getDay()] || '';
+    }
+
+    // ========== Canvas Share Image ==========
+    function drawHeart(ctx, x, y, size, color) {
+      ctx.save();
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      const t = size * 0.3;
+      ctx.moveTo(x, y + t);
+      ctx.bezierCurveTo(x, y, x - size/2, y, x - size/2, y + t);
+      ctx.bezierCurveTo(x - size/2, y + (size + t)/2, x, y + (size + t)/2 + size*0.2, x, y + size);
+      ctx.bezierCurveTo(x, y + (size + t)/2 + size*0.2, x + size/2, y + (size + t)/2, x + size/2, y + t);
+      ctx.bezierCurveTo(x + size/2, y, x, y, x, y + t);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function drawInfoItem(ctx, x, y, icon, label, value, color) {
+      ctx.font = '48px serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(icon, x - 280, y);
+      ctx.fillStyle = '#FF8FAB';
+      ctx.font = 'bold 28px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(label, x - 200, y - 20);
+      ctx.fillStyle = '#333';
+      ctx.font = 'bold 36px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+      ctx.fillText(value, x - 200, y + 20);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 0.3;
+      ctx.beginPath();
+      ctx.moveTo(x - 200, y + 55);
+      ctx.lineTo(x + 300, y + 55);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+
+    function formatDate(d) {
+      const p = d.split('-');
+      if (p.length !== 3) return d;
+      return p[0] + '年' + parseInt(p[1], 10) + '月' + parseInt(p[2], 10) + '日';
+    }
+
+    async function generateShareImage(date, time, food) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080; canvas.height = 1440;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas error');
+
+      const bg = ctx.createLinearGradient(0, 0, 0, 1440);
+      bg.addColorStop(0, '#FFE4EC');
+      bg.addColorStop(0.5, '#FFF0F5');
+      bg.addColorStop(1, '#FFE8D6');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, 1080, 1440);
+
+      ctx.fillStyle = 'rgba(255,182,193,0.4)';
+      for (let i = 0; i < 30; i++) {
+        const x = Math.random() * 1080, y = Math.random() * 1440, r = Math.random() * 20 + 5;
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+      }
+
+      drawHeart(ctx, 540, 260, 140, 'rgba(255,107,157,0.3)');
+      drawHeart(ctx, 540, 260, 120, '#FF6B9D');
+
+      ctx.fillStyle = '#E91E63';
+      ctx.font = 'bold 64px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('我们的约会', 540, 480);
+
+      ctx.strokeStyle = '#FFB6C1';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(380, 530); ctx.lineTo(700, 530);
+      ctx.stroke();
+
+      const cardY = 600, cardH = 520;
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      roundRect(ctx, 90, cardY, 900, cardH, 40);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,182,193,0.5)';
+      ctx.lineWidth = 2;
+      roundRect(ctx, 90, cardY, 900, cardH, 40);
+      ctx.stroke();
+
+      const gap = 140, startY = cardY + 100;
+      drawInfoItem(ctx, 540, startY, '📅', 'DATE', formatDate(date), '#FF8FAB');
+      drawInfoItem(ctx, 540, startY + gap, '⏰', 'TIME', time, '#FFB347');
+      drawInfoItem(ctx, 540, startY + gap*2, food.emoji, 'MENU', food.name + ' · ' + food.description, '#FF6B9D');
+
+      drawHeart(ctx, 540, 1240, 50, '#FFB6C1');
+
+      ctx.fillStyle = '#E91E63';
+      ctx.font = 'bold 40px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('期待与你的每一次相遇', 540, 1340);
+      ctx.fillStyle = '#FF8FAB';
+      ctx.font = '28px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+      ctx.fillText('♥ 约会已敲定 ♥', 540, 1390);
+
+      return canvas;
+    }
+
+    async function downloadImage(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      try {
+        const a = document.createElement('a');
+        a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      } finally {
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+    }
+
+    async function shareOrDownload(blob, filename) {
+      if (typeof navigator.share === 'function' && navigator.canShare &&
+          navigator.canShare({ files: [new File([blob], filename, { type: 'image/png' })] })) {
+        try {
+          const file = new File([blob], filename, { type: 'image/png' });
+          await navigator.share({ title: '我们的约会', text: '约会已敲定，一起来吧！', files: [file] });
+          return { method: 'share', success: true };
+        } catch(e) {}
+      }
+      await downloadImage(blob, filename);
+      return { method: 'download', success: true };
+    }
+
+    async function handleSave() {
+      const btn = document.getElementById('btnSave');
+      if (btn.disabled) return;
+      btn.disabled = true;
+      btn.querySelector('.btn-save-content').innerHTML = '<span class="spinner"></span>生成中...';
+      try {
+        const canvas = await generateShareImage(dateVal, timeVal, selectedFood);
+        const blob = await new Promise(resolve => { canvas.toBlob(b => resolve(b), 'image/png'); });
+        if (!blob) { showToast('生成图片失败，请重试', 'error'); return; }
+        const result = await shareOrDownload(blob, '我们的约会-' + dateVal + '.png');
+        if (result.method === 'share' && result.success) showToast('已分享成功～');
+        else if (result.method === 'download' && result.success) showToast('已保存到相册/下载完成 🎉');
+      } catch(e) {
+        showToast('保存失败了，请稍后再试', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.querySelector('.btn-save-content').innerHTML = '💾 保存约会';
+      }
+    }
+
+    // ========== Back Buttons ==========
+    function initBackButtons() {
+      document.querySelectorAll('[data-back]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          goToStep(parseInt(btn.dataset.back, 10));
+        });
+      });
+    }
+
+    // ========== Init ==========
+    function init() {
+      initHeartParticles();
+      initProgressDots();
+      initStep1();
+      initStep3();
+      initStep4();
+      initBackButtons();
+      document.getElementById('btnContinue').addEventListener('click', () => goToStep(3));
+      document.getElementById('btnSave').addEventListener('click', handleSave);
+      setTimeout(() => {
+        document.getElementById('step1').classList.add('active');
+        document.getElementById('app').classList.add('loaded');
+        attachRipples();
+      }, 100);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else { init(); }
+  </script>
+</body>
+</html>

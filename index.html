@@ -501,6 +501,41 @@
     .btn-surrender:hover { background: linear-gradient(to right, #ec4899, #db2777); }
     .btn-surrender:active { transform: scale(0.95); }
 
+    @media (max-width: 400px) {
+      .step-container { padding: 0 8px; }
+      .step1-title { font-size: 20px; padding: 0 8px; }
+      .speech-bubble { font-size: 13px; padding: 6px 12px; }
+      .button-area { height: 220px; }
+      .btn-yes, .btn-no { font-size: 16px; height: 50px; padding: 0 24px; }
+      .hint-text { font-size: 13px; margin-top: 24px; }
+      .quick-times { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+      .quick-time-btn { padding: 6px 2px; }
+      .quick-time-btn .emoji { font-size: 16px; }
+      .quick-time-btn .label { font-size: 11px; }
+      .food-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .food-card { padding: 8px; }
+      .food-emoji { font-size: 28px; }
+      .food-name { font-size: 12px; }
+      .food-tip { font-size: 12px; padding: 10px 12px; }
+      .info-card { padding: 12px; }
+      .info-value { font-size: 13px; }
+      .btn-save { font-size: 16px; height: 50px; padding: 0 32px; }
+      .chase-emoji { font-size: 60px; }
+      .chase-title { font-size: 20px; }
+      .chase-sub { font-size: 14px; }
+    }
+
+    @media (max-height: 700px) {
+      main { padding-top: 48px; padding-bottom: 16px; }
+      .step-container { min-height: calc(100vh - 4rem); }
+      .step3-wrap { padding-top: 48px; }
+      .step4-wrap { padding-top: 48px; }
+      .step5-wrap { padding-top: 48px; }
+      .beating-heart { margin-bottom: 16px; width: 56px; height: 56px; }
+      .shy-emoji { font-size: 64px; }
+      .form-group { margin-bottom: 16px; }
+    }
+
     @media (min-width: 768px) {
       .step1-title { font-size: 30px; }
       .step2-line1 { font-size: 24px; }

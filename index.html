@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>约会邀请 ♥</title>
+  <title>给语洁的约会邀请 ♥</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -566,7 +566,7 @@
       <div class="chase-content">
         <div class="chase-emoji">😭💕</div>
         <div class="chase-title">别跑！追上你了！</div>
-        <div class="chase-sub">你点那么多次"不要"，我委屈！投降吧！</div>
+        <div class="chase-sub">语洁你点那么多次"不要"，我委屈！投降吧！</div>
         <button class="btn-surrender" id="btnSurrender">好好好，我愿意 💕</button>
       </div>
     </div>
@@ -578,7 +578,7 @@
         <div class="page" id="step1">
           <div class="step1-wrap">
             <h1 class="step1-title" id="typeTitle"></h1>
-            <div class="speech-bubble" id="speechBubble">约不约呀？</div>
+            <div class="speech-bubble" id="speechBubble">老婆大大大人，约不约呀？</div>
             <div class="button-area" id="buttonArea">
               <button class="btn-yes left ripple-btn" id="btnYes" aria-label="愿意">愿意 ♥</button>
               <button class="btn-no right ripple-btn" id="btnNo" aria-label="不要">不要</button>
@@ -604,8 +604,8 @@
               </div>
             </div>
             <div class="step2-text">
-              <p class="step2-line1" id="line1">太棒啦！🎉</p>
-              <p class="step2-line2" id="line2">高兴得原地转圈圈～</p>
+              <p class="step2-line1" id="line1">语洁答应啦！🎉</p>
+              <p class="step2-line2" id="line2">老婆大大大人高兴得原地转圈圈～</p>
             </div>
             <button class="btn-continue ripple-btn" id="btnContinue">
               <span>继续 →</span>
@@ -624,7 +624,7 @@
               <span>返回</span>
             </button>
             <h2 class="page-title">选个时间吧 📅</h2>
-            <p class="page-subtitle">挑一个你方便的日子和时间</p>
+            <p class="page-subtitle">老婆大大大人挑一个方便的日子和时间</p>
             <div class="form-wrap">
               <div class="form-group">
                 <label for="dateInput" class="form-label">日期</label>
@@ -664,7 +664,7 @@
               <span>返回</span>
             </button>
             <h2 class="page-title">想吃点什么？ 🍽️</h2>
-            <p class="page-subtitle">选一种你今天想吃的，每种都有小彩蛋哦～</p>
+            <p class="page-subtitle">老婆大大大人想吃点什么？</p>
             <div class="food-grid" id="foodGrid"></div>
             <div class="food-tip" id="foodTip"></div>
             <button class="btn-random ripple-btn" id="btnRandom">
@@ -689,7 +689,7 @@
               </svg>
             </div>
             <h2 class="page-title">约会敲定啦！</h2>
-            <p class="page-subtitle">保存一下，留个纪念吧 ♥</p>
+            <p class="page-subtitle">和语洁的约会敲定啦！留个纪念吧 ♥</p>
             <div class="info-cards" id="infoCards"></div>
             <button class="btn-save ripple-btn" id="btnSave">
               <span class="btn-save-content">💾 保存约会</span>
@@ -717,7 +717,7 @@
     ];
 
     var NO_TEXTS = ['不要', '再想想嘛', '点不到我', '真的不要吗', '你忍心吗🥺', '再考虑一下嘛', '最后一次机会！'];
-    var BUBBLE_TEXTS = ['约不约呀？', '别点了别点了！', '心碎了💔', '再点我哭了！', '呜呜呜…', '追上你了！'];
+    var BUBBLE_TEXTS = ['老婆大大大人，约不约呀？', '别点了别点了！', '心碎了💔', '语洁你忍心吗！', '呜呜呜…', '追上你了！语洁投降吧！'];
     var DIAGONAL_MAP = { 0: 2, 1: 3, 2: 0, 3: 1 };
 
     var currentStep = 1;
@@ -832,7 +832,7 @@
 
     // ========== Step 1 ==========
     function initStep1() {
-      var title = '你愿意和我一起去约会吗？';
+      var title = '语洁，你愿意和我一起去约会吗？';
       var titleEl = document.getElementById('typeTitle');
       var i = 0;
       titleEl.innerHTML = '<span class="type-cursor"></span>';
@@ -1109,9 +1109,9 @@
       today.setHours(0,0,0,0);
       target.setHours(0,0,0,0);
       var diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
-      if (diff === 0) hint.textContent = '就是今天啦！已经开始准备了！';
-      else if (diff === 1) hint.textContent = '明天就约会啦！今晚激动得睡不着！';
-      else hint.textContent = '距离约会还有 ' + diff + ' 天 \uD83D\uDC97 已经开始倒计时了！';
+      if (diff === 0) hint.textContent = '就是今天啦！语洁准备好了吗！';
+      else if (diff === 1) hint.textContent = '明天就和语洁约会啦！今晚激动得睡不着！';
+      else hint.textContent = '距离和语洁约会还有 ' + diff + ' 天 \uD83D\uDC97 已经开始倒计时了！';
     }
 
     function isStep3Valid() {
@@ -1354,7 +1354,7 @@
       ctx.font = 'bold 64px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('我们的约会', 540, 480);
+      ctx.fillText('和语洁的约会', 540, 480);
 
       ctx.strokeStyle = '#FFB6C1';
       ctx.lineWidth = 3;
@@ -1405,7 +1405,7 @@
           navigator.canShare({ files: [new File([blob], filename, { type: 'image/png' })] })) {
         try {
           var file = new File([blob], filename, { type: 'image/png' });
-          await navigator.share({ title: '我们的约会', text: '约会已敲定，一起来吧！', files: [file] });
+          await navigator.share({ title: '和语洁的约会', text: '和老婆大大大人的约会已敲定！', files: [file] });
           return { method: 'share', success: true };
         } catch(e) {}
       }
@@ -1422,7 +1422,7 @@
         var canvas = await generateShareImage(dateVal, timeVal, selectedFood);
         var blob = await new Promise(function(resolve) { canvas.toBlob(function(b) { resolve(b); }, 'image/png'); });
         if (!blob) { showToast('生成图片失败，请重试', 'error'); return; }
-        var result = await shareOrDownload(blob, '我们的约会-' + dateVal + '.png');
+        var result = await shareOrDownload(blob, '和语洁的约会-' + dateVal + '.png');
         if (result.method === 'share' && result.success) showToast('已分享成功～');
         else if (result.method === 'download' && result.success) showToast('已保存到相册/下载完成 \uD83C\uDF89');
       } catch(e) {

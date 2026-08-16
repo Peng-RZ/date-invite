@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>约会邀请 ♥</title>
+  <title>约会邀请 🐶</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -30,6 +30,7 @@
     }
     .app.loaded { opacity: 1; }
 
+    /* ===== Heart Particles ===== */
     .heart-particles {
       position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;
     }
@@ -47,6 +48,7 @@
       100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
     }
 
+    /* ===== Progress ===== */
     .progress-wrap {
       position: fixed; top: 16px; left: 0; right: 0; z-index: 30;
       display: flex; justify-content: center; padding-top: 8px;
@@ -68,6 +70,7 @@
       transform: scale(1.25); box-shadow: 0 0 8px rgba(236,72,153,0.4); opacity: 1;
     }
 
+    /* ===== Main Layout ===== */
     main {
       position: relative; z-index: 10;
       display: flex; align-items: center; justify-content: center;
@@ -89,6 +92,7 @@
       position: relative; pointer-events: auto;
     }
 
+    /* ===== Back Button ===== */
     .back-btn {
       position: absolute; top: 16px; left: 16px; z-index: 20;
       display: flex; align-items: center; gap: 4px;
@@ -103,13 +107,14 @@
     .back-btn:hover { background: #fdf2f8; }
     .back-btn svg { width: 20px; height: 20px; }
 
+    /* ===== Step 1 ===== */
     .step1-wrap {
       display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;
     }
     .step1-title {
       font-size: clamp(22px, 5vw, 30px); font-weight: 700;
       color: #db2777; text-align: center;
-      margin-bottom: 40px; min-height: 3rem; line-height: 1.6; padding: 0 16px;
+      margin-bottom: 24px; min-height: 3rem; line-height: 1.6; padding: 0 16px;
     }
     .type-cursor {
       display: inline-block; width: 2px; height: 1.4em;
@@ -117,6 +122,31 @@
       animation: blink 0.8s step-end infinite;
     }
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    /* Dog mascot */
+    .dog-mascot {
+      width: 140px; height: 140px; margin-bottom: 16px;
+      position: relative;
+      transition: all 0.4s ease;
+    }
+    .dog-mascot svg {
+      width: 100%; height: 100%;
+      filter: drop-shadow(0 4px 12px rgba(236,72,153,0.15));
+    }
+    .dog-bubble {
+      position: absolute; top: -36px; right: -60px;
+      background: white; border: 2px solid #fbcfe8; border-radius: 16px;
+      padding: 6px 12px; font-size: 13px; color: #db2777; font-weight: 500;
+      white-space: nowrap; opacity: 0; transform: translateY(8px) scale(0.8);
+      transition: all 0.4s ease;
+      box-shadow: 0 2px 8px rgba(236,72,153,0.1);
+    }
+    .dog-bubble.show { opacity: 1; transform: translateY(0) scale(1); }
+    .dog-bubble::after {
+      content: ''; position: absolute; bottom: -6px; left: 20px;
+      border-left: 6px solid transparent; border-right: 6px solid transparent;
+      border-top: 6px solid #fbcfe8;
+    }
 
     .button-area {
       position: relative; width: 100%; max-width: 384px;
@@ -163,30 +193,17 @@
     }
     @keyframes hint-pulse { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
 
-    .confetti-canvas {
-      position: fixed; inset: 0; pointer-events: none; z-index: 50;
-    }
-
+    /* ===== Step 2 ===== */
     .step2-wrap {
       position: relative; display: flex; flex-direction: column;
       align-items: center; justify-content: center; width: 100%; padding: 0 16px;
     }
-    .shy-emoji-wrap {
-      position: relative; margin-bottom: 32px;
-      animation: float-y 3s ease-in-out infinite;
+    .dog-celebrate {
+      width: 160px; height: 160px; margin-bottom: 24px;
+      animation: float-y 2s ease-in-out infinite;
     }
-    .shy-emoji { font-size: clamp(80px, 20vw, 120px); user-select: none; }
-    .blush {
-      position: absolute; transition: opacity 1s ease-in-out; opacity: 0;
-    }
-    .blush.show { opacity: 1; }
-    .blush-cheek {
-      position: absolute; width: 24px; height: 16px; border-radius: 9999px;
-      background: rgba(244,114,182,0.5); filter: blur(4px);
-    }
-    .blush-cheek.left { top: 55%; left: 22%; }
-    .blush-cheek.right { top: 55%; right: 22%; }
-    @keyframes float-y { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+    .dog-celebrate svg { width: 100%; height: 100%; filter: drop-shadow(0 6px 16px rgba(236,72,153,0.2)); }
+    @keyframes float-y { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
 
     .step2-text { text-align: center; margin-bottom: 40px; }
     .step2-line1, .step2-line2 {
@@ -217,6 +234,7 @@
     }
     @keyframes shine { 0%{transform:translateX(-100%);} 100%{transform:translateX(200%);} }
 
+    /* ===== Step 3 ===== */
     .step3-wrap {
       position: relative; display: flex; flex-direction: column;
       align-items: center; width: 100%; padding: 64px 16px 0;
@@ -275,9 +293,10 @@
       background: #e5e7eb; color: #9ca3af; cursor: not-allowed; box-shadow: none;
     }
 
+    /* ===== Step 4 ===== */
     .step4-wrap {
       position: relative; display: flex; flex-direction: column;
-      align-items: center; width: 100%; padding: 64px 16px 16px;
+      align-items: center; width: 100%; padding: 64px 16px 0;
     }
     .food-grid {
       width: 100%; max-width: 448px;
@@ -325,6 +344,18 @@
     .food-card.selected .food-name { color: #db2777; }
     .food-desc { font-size: 10px; color: #f472b6; }
 
+    .food-dog-comment {
+      width: 100%; max-width: 384px; margin-top: 8px; margin-bottom: 16px;
+      display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px;
+      background: white; border-radius: 16px; border: 1px solid #fce7f3;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      opacity: 0; transform: translateY(8px); transition: all 0.3s ease;
+    }
+    .food-dog-comment.show { opacity: 1; transform: translateY(0); }
+    .food-dog-comment .dog-mini { width: 40px; height: 40px; flex-shrink: 0; }
+    .food-dog-comment .dog-mini svg { width: 100%; height: 100%; }
+    .food-dog-comment .comment-text { font-size: 13px; color: #831843; line-height: 1.5; padding-top: 6px; }
+
     .btn-random {
       display: flex; align-items: center; gap: 8px;
       height: 48px; padding: 0 24px; border-radius: 9999px;
@@ -337,10 +368,25 @@
     .btn-random.spin .dice { animation: spin 0.5s linear infinite; }
     @keyframes spin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
 
+    /* ===== Step 5 ===== */
     .step5-wrap {
       position: relative; display: flex; flex-direction: column;
       align-items: center; width: 100%; padding: 64px 16px 24px;
     }
+    .dog-final {
+      width: 120px; height: 120px; margin-bottom: 16px; margin-top: 8px;
+      position: relative;
+    }
+    .dog-final svg { width: 100%; height: 100%; filter: drop-shadow(0 4px 12px rgba(236,72,153,0.2)); }
+    .dog-final .heart-float {
+      position: absolute; top: -8px; right: -8px; font-size: 24px;
+      animation: heart-up 1.5s ease-in-out infinite;
+    }
+    @keyframes heart-up {
+      0%,100% { transform: translateY(0) scale(1); opacity: 1; }
+      50% { transform: translateY(-10px) scale(1.2); opacity: 0.8; }
+    }
+
     .beating-heart {
       position: relative; width: 72px; height: 72px;
       margin-bottom: 24px; margin-top: 8px;
@@ -419,6 +465,7 @@
       margin-top: 16px; font-size: 12px; color: #f472b6; text-align: center;
     }
 
+    /* ===== Toast ===== */
     .toast-container {
       position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
       z-index: 100; display: flex; flex-direction: column; gap: 8px; pointer-events: none;
@@ -446,6 +493,12 @@
       to { opacity: 0; transform: translateY(-12px); }
     }
 
+    /* ===== Confetti Canvas ===== */
+    .confetti-canvas {
+      position: fixed; inset: 0; pointer-events: none; z-index: 50;
+    }
+
+    /* ===== Ripple ===== */
     .ripple-btn { position: relative; overflow: hidden; }
     .ripple-effect {
       position: absolute; border-radius: 50%;
@@ -455,6 +508,40 @@
       pointer-events: none;
     }
     @keyframes ripple-expand { to { transform: scale(4); opacity: 0; } }
+
+    /* ===== Dog chase overlay ===== */
+    .dog-chase-overlay {
+      position: fixed; inset: 0; z-index: 60; pointer-events: none;
+      display: none; align-items: center; justify-content: center;
+      background: rgba(253,242,248,0.6);
+      backdrop-filter: blur(2px);
+    }
+    .dog-chase-overlay.active { display: flex; }
+    .dog-chase-content {
+      text-align: center; pointer-events: auto;
+      animation: chase-bounce 0.6s ease infinite;
+    }
+    @keyframes chase-bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    .dog-chase-content svg { width: 120px; height: 120px; margin-bottom: 16px; }
+    .dog-chase-text {
+      font-size: 22px; font-weight: 700; color: #db2777;
+      margin-bottom: 8px;
+    }
+    .dog-chase-sub {
+      font-size: 15px; color: #f472b6; margin-bottom: 20px;
+    }
+    .btn-surrender {
+      height: 52px; padding: 0 36px; border-radius: 9999px;
+      background: linear-gradient(to right, #f472b6, #ec4899);
+      color: white; font-weight: 700; font-size: 16px;
+      box-shadow: 0 8px 20px -4px rgba(244,114,182,0.5);
+      transition: all 0.2s ease;
+    }
+    .btn-surrender:hover { background: linear-gradient(to right, #ec4899, #db2777); }
+    .btn-surrender:active { transform: scale(0.95); }
 
     @media (min-width: 768px) {
       .step1-title { font-size: 30px; }
@@ -477,18 +564,96 @@
     <canvas class="confetti-canvas" id="confettiCanvas"></canvas>
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Dog chase overlay (Step 1 easter egg) -->
+    <div class="dog-chase-overlay" id="dogChase">
+      <div class="dog-chase-content">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Running dog with tears -->
+          <ellipse cx="60" cy="80" rx="30" ry="20" stroke="#333" stroke-width="2.5" fill="none"/>
+          <circle cx="60" cy="52" r="20" stroke="#333" stroke-width="2.5" fill="none"/>
+          <path d="M42 42 Q34 22 42 34" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M78 42 Q86 22 78 34" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <circle cx="52" cy="50" r="2.5" fill="#333"/>
+          <circle cx="68" cy="50" r="2.5" fill="#333"/>
+          <path d="M49 55 Q52 58 55 55" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M52 47 L48 42" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+          <path d="M68 47 L72 42" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+          <circle cx="48" r="4" cy="58" fill="#FBCFE8" opacity="0.5"/>
+          <circle cx="72" r="4" cy="58" fill="#FBCFE8" opacity="0.5"/>
+          <!-- legs running -->
+          <line x1="45" y1="95" x2="38" y2="110" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="55" y1="96" x2="60" y2="110" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="65" y1="96" x2="70" y2="110" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="75" y1="95" x2="82" y2="110" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- tail wagging -->
+          <path d="M88 75 Q100 65 95 55" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- tears -->
+          <path d="M50 53 L47 60" stroke="#60A5FA" stroke-width="2" stroke-linecap="round"/>
+          <path d="M70 53 L73 60" stroke="#60A5FA" stroke-width="2" stroke-linecap="round"/>
+          <!-- sweat -->
+          <path d="M85 50 L88 44 L84 46" stroke="#60A5FA" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="dog-chase-text">🐶 狗子追上来了！</div>
+        <div class="dog-chase-sub">它哭着说：你点那么多次"不要"，我委屈！</div>
+        <button class="btn-surrender" id="btnSurrender">好好好，我愿意 💕</button>
+      </div>
+    </div>
+
     <main>
       <div class="step-container" id="stepContainer">
 
         <!-- Step 1 -->
         <div class="page" id="step1">
           <div class="step1-wrap">
+            <div class="dog-mascot" id="dogMascot">
+              <svg viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" id="dogSvg">
+                <!-- Body -->
+                <ellipse cx="70" cy="95" rx="32" ry="22" stroke="#333" stroke-width="2.5" fill="none"/>
+                <!-- Head -->
+                <circle cx="70" cy="58" r="24" stroke="#333" stroke-width="2.5" fill="none"/>
+                <!-- Ears -->
+                <path d="M48 48 Q36 24 46 38" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round" id="earL"/>
+                <path d="M92 48 Q104 24 94 38" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round" id="earR"/>
+                <!-- Eyes -->
+                <circle cx="60" cy="55" r="3" fill="#333" id="eyeL"/>
+                <circle cx="80" cy="55" r="3" fill="#333" id="eyeR"/>
+                <!-- Eyebrows -->
+                <line x1="55" y1="48" x2="63" y2="50" stroke="#333" stroke-width="2" stroke-linecap="round" id="browL" opacity="0"/>
+                <line x1="85" y1="48" x2="77" y2="50" stroke="#333" stroke-width="2" stroke-linecap="round" id="browR" opacity="0"/>
+                <!-- Nose -->
+                <ellipse cx="70" cy="64" rx="3" ry="2.5" fill="#333"/>
+                <!-- Mouth -->
+                <path d="M64 68 Q70 74 76 68" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round" id="mouth"/>
+                <!-- Tongue -->
+                <path d="M70 72 Q70 80 68 78" stroke="#F87171" stroke-width="2" fill="none" stroke-linecap="round" id="tongue"/>
+                <!-- Blush -->
+                <circle cx="52" cy="62" r="5" fill="#FBCFE8" opacity="0.5" id="blushL"/>
+                <circle cx="88" cy="62" r="5" fill="#FBCFE8" opacity="0.5" id="blushR"/>
+                <!-- Front legs -->
+                <line x1="52" y1="112" x2="52" y2="126" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="88" y1="112" x2="88" y2="126" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- Tail -->
+                <path d="M100 85 Q115 70 108 60" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round" id="tail">
+                  <animate attributeName="d" dur="0.4s" repeatCount="indefinite"
+                    values="M100 85 Q115 70 108 60;M100 85 Q118 75 112 65;M100 85 Q115 70 108 60"/>
+                </path>
+                <!-- Tears (hidden by default) -->
+                <path d="M58 58 L54 66" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" id="tearL" opacity="0"/>
+                <path d="M82 58 L86 66" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" id="tearR" opacity="0"/>
+                <!-- Sign board -->
+                <g id="signBoard" opacity="0">
+                  <rect x="98" y="30" width="42" height="22" rx="6" fill="white" stroke="#F472B6" stroke-width="1.5"/>
+                  <text x="119" y="45" text-anchor="middle" font-size="11" fill="#DB2777" font-weight="600" font-family="Noto Sans SC, sans-serif" id="signText">求你啦</text>
+                </g>
+              </svg>
+              <div class="dog-bubble" id="dogBubble">汪！约不约？</div>
+            </div>
             <h1 class="step1-title" id="typeTitle"></h1>
             <div class="button-area" id="buttonArea">
               <button class="btn-yes left ripple-btn" id="btnYes" aria-label="愿意">愿意 ♥</button>
               <button class="btn-no right ripple-btn" id="btnNo" aria-label="不要">不要</button>
             </div>
-            <p class="hint-text">（提示：试试点"不要"？）</p>
+            <p class="hint-text">（提示：试试点"不要"？🐶）</p>
           </div>
         </div>
 
@@ -501,16 +666,46 @@
               </svg>
               <span>返回</span>
             </button>
-            <div class="shy-emoji-wrap">
-              <div class="shy-emoji">😊</div>
-              <div class="blush" id="blush">
-                <div class="blush-cheek left"></div>
-                <div class="blush-cheek right"></div>
-              </div>
+            <div class="dog-celebrate">
+              <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Happy dog jumping with hearts -->
+                <ellipse cx="80" cy="105" rx="32" ry="20" stroke="#333" stroke-width="2.5" fill="none"/>
+                <circle cx="80" cy="70" r="24" stroke="#333" stroke-width="2.5" fill="none"/>
+                <path d="M58 60 Q46 36 56 50" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M102 60 Q114 36 104 50" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- Happy closed eyes -->
+                <path d="M68 66 Q72 62 76 66" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M84 66 Q88 62 92 66" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <ellipse cx="80" cy="76" rx="3" ry="2.5" fill="#333"/>
+                <!-- Big smile -->
+                <path d="M70 80 Q80 92 90 80" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M80 84 Q80 90 77 88" stroke="#F87171" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- Blush -->
+                <circle cx="62" cy="74" r="6" fill="#FBCFE8" opacity="0.5"/>
+                <circle cx="98" cy="74" r="6" fill="#FBCFE8" opacity="0.5"/>
+                <!-- Legs up (jumping) -->
+                <line x1="62" y1="120" x2="52" y2="136" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="72" y1="122" x2="68" y2="136" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="88" y1="122" x2="92" y2="136" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="98" y1="120" x2="108" y2="136" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- Tail super happy -->
+                <path d="M110 95 Q130 75 125 60" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round">
+                  <animate attributeName="d" dur="0.3s" repeatCount="indefinite"
+                    values="M110 95 Q130 75 125 60;M110 95 Q135 80 130 65;M110 95 Q130 75 125 60"/>
+                </path>
+                <!-- Floating hearts -->
+                <text x="30" y="40" font-size="18" opacity="0.8">💕</text>
+                <text x="120" y="35" font-size="14" opacity="0.6">💗</text>
+                <text x="15" y="70" font-size="12" opacity="0.5">♥</text>
+                <text x="135" y="65" font-size="16" opacity="0.7">💖</text>
+                <!-- Sparkles -->
+                <text x="45" y="30" font-size="10" opacity="0.6">✨</text>
+                <text x="110" y="45" font-size="10" opacity="0.6">✨</text>
+              </svg>
             </div>
             <div class="step2-text">
               <p class="step2-line1" id="line1">太棒啦！</p>
-              <p class="step2-line2" id="line2">我就知道你会答应的～</p>
+              <p class="step2-line2" id="line2">狗子高兴得原地转圈圈～</p>
             </div>
             <button class="btn-continue ripple-btn" id="btnContinue">
               <span>继续 →</span>
@@ -529,7 +724,7 @@
               <span>返回</span>
             </button>
             <h2 class="page-title">选个时间吧 📅</h2>
-            <p class="page-subtitle">挑一个你方便的日子和时间</p>
+            <p class="page-subtitle">🐶 狗子已经迫不及待了！</p>
             <div class="form-wrap">
               <div class="form-group">
                 <label for="dateInput" class="form-label">日期</label>
@@ -571,8 +766,25 @@
             <h2 class="page-title">想吃点什么？ 🍽️</h2>
             <p class="page-subtitle">选一种你今天想吃的</p>
             <div class="food-grid" id="foodGrid"></div>
+            <div class="food-dog-comment" id="foodDogComment">
+              <div class="dog-mini">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="20" cy="18" r="10" stroke="#333" stroke-width="1.5" fill="none"/>
+                  <ellipse cx="20" cy="30" rx="12" ry="7" stroke="#333" stroke-width="1.5" fill="none"/>
+                  <path d="M12 14 Q7 4 11 10" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                  <path d="M28 14 Q33 4 29 10" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                  <circle cx="16" cy="17" r="1.5" fill="#333"/>
+                  <circle cx="24" cy="17" r="1.5" fill="#333"/>
+                  <ellipse cx="20" cy="21" rx="2" ry="1.5" fill="#333"/>
+                  <path d="M17 23 Q20 27 23 23" stroke="#333" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                  <circle cx="12" cy="20" r="3" fill="#FBCFE8" opacity="0.4"/>
+                  <circle cx="28" cy="20" r="3" fill="#FBCFE8" opacity="0.4"/>
+                </svg>
+              </div>
+              <div class="comment-text" id="commentText">选好了告诉狗子一声～</div>
+            </div>
             <button class="btn-random ripple-btn" id="btnRandom">
-              <span class="dice">🎲</span>帮我选
+              <span class="dice">🎲</span>帮狗子选
             </button>
           </div>
         </div>
@@ -586,14 +798,33 @@
               </svg>
               <span>返回</span>
             </button>
-            <div class="beating-heart">
-              <div class="heart-glow"></div>
-              <svg class="heart-svg" viewBox="0 0 24 24" fill="#FF6B9D" aria-hidden="true">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            <div class="dog-final">
+              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Dog holding a heart sign -->
+                <ellipse cx="60" cy="80" rx="28" ry="18" stroke="#333" stroke-width="2.5" fill="none"/>
+                <circle cx="60" cy="50" r="20" stroke="#333" stroke-width="2.5" fill="none"/>
+                <path d="M42 42 Q32 22 40 34" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M78 42 Q88 22 80 34" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- Happy eyes -->
+                <path d="M50 48 Q54 44 58 48" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M62 48 Q66 44 70 48" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <ellipse cx="60" cy="56" rx="2.5" ry="2" fill="#333"/>
+                <path d="M55 59 Q60 65 65 59" stroke="#333" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <circle cx="44" cy="54" r="4" fill="#FBCFE8" opacity="0.5"/>
+                <circle cx="76" cy="54" r="4" fill="#FBCFE8" opacity="0.5"/>
+                <!-- Front legs holding something up -->
+                <line x1="48" y1="95" x2="48" y2="108" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="72" y1="95" x2="72" y2="108" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- Tail -->
+                <path d="M86 72 Q100 58 96 48" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round">
+                  <animate attributeName="d" dur="0.35s" repeatCount="indefinite"
+                    values="M86 72 Q100 58 96 48;M86 72 Q104 62 100 52;M86 72 Q100 58 96 48"/>
+                </path>
               </svg>
+              <span class="heart-float">💕</span>
             </div>
             <h2 class="page-title">约会敲定啦！</h2>
-            <p class="page-subtitle">保存一下，留个纪念吧 ♥</p>
+            <p class="page-subtitle">🐶 狗子帮你保存，留个纪念吧</p>
             <div class="info-cards" id="infoCards"></div>
             <button class="btn-save ripple-btn" id="btnSave">
               <span class="btn-save-content">💾 保存约会</span>
@@ -609,18 +840,28 @@
   <script>
     // ========== Data ==========
     const FOODS = [
-      { id: '1', name: '火锅', emoji: '🍲', description: '热辣沸腾' },
-      { id: '2', name: '烤肉', emoji: '🥓', description: '滋滋冒油' },
-      { id: '3', name: '日料', emoji: '🍣', description: '精致鲜美' },
-      { id: '4', name: '西餐', emoji: '🍝', description: '浪漫优雅' },
-      { id: '5', name: '中餐', emoji: '🥢', description: '家常美味' },
-      { id: '6', name: '泰餐', emoji: '🍜', description: '酸辣开胃' },
-      { id: '7', name: '韩餐', emoji: '🍱', description: '丰富多样' },
-      { id: '8', name: '串串', emoji: '🍢', description: '撸串畅饮' },
-      { id: '9', name: '小龙虾', emoji: '🦞', description: '宵夜必备' },
+      { id: '1', name: '火锅', emoji: '🍲', description: '热辣沸腾', dogComment: '狗子闻到辣味就流口水了！但是只能吃清汤锅底汪～' },
+      { id: '2', name: '烤肉', emoji: '🥓', description: '滋滋冒油', dogComment: '烤肉！狗子最爱！能分我一块吗？汪汪！' },
+      { id: '3', name: '日料', emoji: '🍣', description: '精致鲜美', dogComment: '三文鱼…狗子的最爱之一！记得点一份给狗子打包汪～' },
+      { id: '4', name: '西餐', emoji: '🍝', description: '浪漫优雅', dogComment: '烛光晚餐！狗子在旁边当电灯泡会不会太亮？💡' },
+      { id: '5', name: '中餐', emoji: '🥢', description: '家常美味', dogComment: '红烧排骨！糖醋里脊！狗子已经开始摇尾巴了！' },
+      { id: '6', name: '泰餐', emoji: '🍜', description: '酸辣开胃', dogComment: '冬阴功汤？狗子不太能吃辣…但你们开心就好汪' },
+      { id: '7', name: '韩餐', emoji: '🍱', description: '丰富多样', dogComment: '炸鸡配啤酒！狗子负责吃鸡骨头可以吗？' },
+      { id: '8', name: '串串', emoji: '🍢', description: '撸串畅饮', dogComment: '撸串！狗子最擅长的就是蹲在旁边等掉落的肉串！' },
+      { id: '9', name: '小龙虾', emoji: '🦞', description: '宵夜必备', dogComment: '小龙虾配冰啤！狗子帮你剥虾壳好不好？（其实狗子也不会剥）' },
     ];
 
-    const NO_TEXTS = ['不要', '再想想嘛', '点不到我', '真的不要吗'];
+    const NO_TEXTS = ['不要', '再想想嘛', '点不到我', '真的不要吗', '狗子委屈了', '你忍心吗🥺', '汪…汪…😭'];
+    const DOG_BUBBLES = [
+      '汪！约不约？',
+      '别点了别点了！',
+      '狗子心碎了💔',
+      '再点狗子哭了！',
+      '呜呜呜…',
+      '狗子追你了！',
+      '追上了！投降吧！',
+    ];
+    const DOG_SIGN_TEXTS = ['求你啦', '答应嘛', '呜呜', '💔', '汪…', '🥺', '追！'];
     const DIAGONAL_MAP = { 0: 2, 1: 3, 2: 0, 3: 1 };
 
     let currentStep = 1;
@@ -637,6 +878,7 @@
     let noScale = 1;
     let brokenHeartId = 0;
     let randomizing = false;
+    let noClickCount = 0;
 
     // ========== Utils: Ripple ==========
     function addRipple(e) {
@@ -732,6 +974,89 @@
       if (step === 5) renderStep5();
     }
 
+    // ========== Dog Mood System (Step 1) ==========
+    function updateDogMood() {
+      const count = noClickCount;
+      // Eyes
+      const eyeL = document.getElementById('eyeL');
+      const eyeR = document.getElementById('eyeR');
+      const browL = document.getElementById('browL');
+      const browR = document.getElementById('browR');
+      const mouth = document.getElementById('mouth');
+      const tongue = document.getElementById('tongue');
+      const tearL = document.getElementById('tearL');
+      const tearR = document.getElementById('tearR');
+      const blushL = document.getElementById('blushL');
+      const blushR = document.getElementById('blushR');
+      const signBoard = document.getElementById('signBoard');
+      const signText = document.getElementById('signText');
+      const bubble = document.getElementById('dogBubble');
+      const dogMascot = document.getElementById('dogMascot');
+
+      if (count === 0) {
+        // Happy
+        browL.setAttribute('opacity', '0');
+        browR.setAttribute('opacity', '0');
+        mouth.setAttribute('d', 'M64 68 Q70 74 76 68');
+        tongue.setAttribute('opacity', '1');
+        tearL.setAttribute('opacity', '0');
+        tearR.setAttribute('opacity', '0');
+        signBoard.setAttribute('opacity', '0');
+        blushL.setAttribute('opacity', '0.5');
+        blushR.setAttribute('opacity', '0.5');
+      } else if (count === 1) {
+        // Slightly worried
+        browL.setAttribute('opacity', '1');
+        browR.setAttribute('opacity', '1');
+        mouth.setAttribute('d', 'M64 70 Q70 72 76 70');
+        tongue.setAttribute('opacity', '0');
+        bubble.textContent = DOG_BUBBLES[1];
+        bubble.classList.add('show');
+        setTimeout(() => bubble.classList.remove('show'), 2000);
+      } else if (count === 2) {
+        // Sad
+        mouth.setAttribute('d', 'M64 72 Q70 68 76 72');
+        bubble.textContent = DOG_BUBBLES[2];
+        bubble.classList.add('show');
+        setTimeout(() => bubble.classList.remove('show'), 2000);
+        signBoard.setAttribute('opacity', '1');
+        signText.textContent = DOG_SIGN_TEXTS[0];
+      } else if (count === 3) {
+        // Crying
+        tearL.setAttribute('opacity', '1');
+        tearR.setAttribute('opacity', '1');
+        mouth.setAttribute('d', 'M64 73 Q70 68 76 73');
+        blushL.setAttribute('opacity', '0.3');
+        blushR.setAttribute('opacity', '0.3');
+        bubble.textContent = DOG_BUBBLES[3];
+        bubble.classList.add('show');
+        setTimeout(() => bubble.classList.remove('show'), 2000);
+        signText.textContent = DOG_SIGN_TEXTS[1];
+      } else if (count === 4) {
+        mouth.setAttribute('d', 'M62 74 Q70 66 78 74');
+        bubble.textContent = DOG_BUBBLES[4];
+        bubble.classList.add('show');
+        setTimeout(() => bubble.classList.remove('show'), 2000);
+        signText.textContent = DOG_SIGN_TEXTS[2];
+      } else if (count >= 5) {
+        // Trigger chase!
+        bubble.textContent = DOG_BUBBLES[5];
+        bubble.classList.add('show');
+        setTimeout(() => {
+          bubble.classList.remove('show');
+          triggerDogChase();
+        }, 1200);
+      }
+
+      // Shake mascot on each click
+      dogMascot.style.transform = 'rotate(' + (count % 2 === 0 ? -5 : 5) + 'deg)';
+      setTimeout(() => { dogMascot.style.transform = 'rotate(0deg)'; }, 300);
+    }
+
+    function triggerDogChase() {
+      document.getElementById('dogChase').classList.add('active');
+    }
+
     // ========== Step 1 ==========
     function initStep1() {
       const title = '你愿意和我一起去约会吗？';
@@ -744,8 +1069,15 @@
         if (i >= title.length) clearInterval(timer);
       }, 120);
 
+      // Show dog bubble after typing
+      setTimeout(() => {
+        document.getElementById('dogBubble').classList.add('show');
+        setTimeout(() => document.getElementById('dogBubble').classList.remove('show'), 3000);
+      }, title.length * 120 + 500);
+
       document.getElementById('btnYes').addEventListener('click', handleYesClick);
       document.getElementById('btnNo').addEventListener('click', handleNoClick);
+      document.getElementById('btnSurrender').addEventListener('click', handleSurrender);
       window.addEventListener('resize', handleResize);
     }
 
@@ -772,7 +1104,9 @@
     }
 
     function handleNoClick(e) {
-      // 碎心
+      noClickCount++;
+
+      // Broken heart
       const rect = e.currentTarget.getBoundingClientRect();
       const areaRect = document.getElementById('buttonArea').getBoundingClientRect();
       const id = brokenHeartId++;
@@ -780,23 +1114,26 @@
       bh.className = 'broken-heart';
       bh.style.left = (rect.left - areaRect.left + rect.width / 2) + 'px';
       bh.style.top = (rect.top - areaRect.top) + 'px';
-      bh.textContent = '💔';
+      bh.textContent = noClickCount < 3 ? '💔' : '😭';
       document.getElementById('buttonArea').appendChild(bh);
       setTimeout(() => bh.remove(), 1200);
 
-      // 换文案
-      noTextIndex = (noTextIndex + 1) % NO_TEXTS.length;
+      // Update text
+      noTextIndex = Math.min(noTextIndex + 1, NO_TEXTS.length - 1);
       e.currentTarget.textContent = NO_TEXTS[noTextIndex];
 
-      // 渐进缩放
-      yesScale = Math.min(yesScale + 0.08, 1.8);
-      noScale = Math.max(noScale - 0.05, 0.65);
+      // Progressive scaling
+      yesScale = Math.min(yesScale + 0.08, 2.0);
+      noScale = Math.max(noScale - 0.05, 0.55);
 
       const btnYes = document.getElementById('btnYes');
       btnYes.style.setProperty('--yes-scale', yesScale);
       e.currentTarget.style.setProperty('--no-scale', noScale);
 
-      // 旋转抖动
+      // Update dog mood
+      updateDogMood();
+
+      // Button movement
       const rotateDir = Math.random() > 0.5 ? 5 : -5;
 
       if (!hasMoved) {
@@ -832,6 +1169,12 @@
           btnNo.style.transform = 'translateY(-50%) scale(' + noScale + ') rotate(0deg)';
         }
       }, 360);
+    }
+
+    function handleSurrender() {
+      document.getElementById('dogChase').classList.remove('active');
+      launchConfetti();
+      setTimeout(() => { goToStep(2); }, 2000);
     }
 
     function handleYesClick() {
@@ -907,18 +1250,15 @@
 
     // ========== Step 2 ==========
     function playStep2Animations() {
-      const blush = document.getElementById('blush');
       const line1 = document.getElementById('line1');
       const line2 = document.getElementById('line2');
       const btn = document.getElementById('btnContinue');
-      blush.classList.remove('show');
       line1.classList.remove('show');
       line2.classList.remove('show');
       btn.classList.remove('show');
-      setTimeout(() => blush.classList.add('show'), 300);
-      setTimeout(() => line1.classList.add('show'), 600);
-      setTimeout(() => line2.classList.add('show'), 1200);
-      setTimeout(() => btn.classList.add('show'), 1800);
+      setTimeout(() => line1.classList.add('show'), 300);
+      setTimeout(() => line2.classList.add('show'), 900);
+      setTimeout(() => btn.classList.add('show'), 1500);
     }
 
     // ========== Step 3 ==========
@@ -982,7 +1322,9 @@
       today.setHours(0,0,0,0);
       target.setHours(0,0,0,0);
       const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
-      hint.textContent = diff === 0 ? '就是今天啦！' : '距离约会还有 ' + diff + ' 天 💗';
+      if (diff === 0) hint.textContent = '就是今天啦！🐶 狗子已经开始准备了！';
+      else if (diff === 1) hint.textContent = '明天就约会啦！🐶 狗子今晚激动得睡不着！';
+      else hint.textContent = '距离约会还有 ' + diff + ' 天 💗 狗子已经开始倒计时了！';
     }
 
     function isStep3Valid() {
@@ -1029,6 +1371,16 @@
       document.getElementById('btnRandom').addEventListener('click', handleRandom);
     }
 
+    function showDogComment(food) {
+      const commentEl = document.getElementById('foodDogComment');
+      const textEl = document.getElementById('commentText');
+      commentEl.classList.remove('show');
+      setTimeout(() => {
+        textEl.textContent = food.dogComment;
+        commentEl.classList.add('show');
+      }, 100);
+    }
+
     function selectFood(food, cardEl) {
       if (randomizing) return;
       document.querySelectorAll('.food-card').forEach(c => {
@@ -1039,7 +1391,8 @@
       cardEl.classList.add('selected', 'bounce');
       cardEl.insertAdjacentHTML('afterbegin', '<span class="food-check">✓</span><span class="food-glow"></span>');
       selectedFood = food;
-      setTimeout(() => { goToStep(5); }, 600);
+      showDogComment(food);
+      setTimeout(() => { goToStep(5); }, 1500);
     }
 
     function handleRandom() {
@@ -1076,11 +1429,12 @@
           highlight(finalIdx);
           cards[finalIdx].classList.add('bounce');
           selectedFood = finalFood;
+          showDogComment(finalFood);
           setTimeout(() => {
             btn.classList.remove('spin');
             randomizing = false;
             goToStep(5);
-          }, 600);
+          }, 1200);
         }
       }, 80 + step * 15);
     }
@@ -1159,6 +1513,85 @@
       ctx.closePath();
     }
 
+    function drawLineDog(ctx, x, y, size) {
+      // Draw a simple line-drawing style dog
+      ctx.save();
+      ctx.strokeStyle = '#333';
+      ctx.fillStyle = '#333';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+
+      const s = size / 80; // scale factor
+
+      // Body ellipse
+      ctx.beginPath();
+      ctx.ellipse(x, y + 25*s, 30*s, 18*s, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Head circle
+      ctx.beginPath();
+      ctx.arc(x, y - 10*s, 20*s, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Left ear
+      ctx.beginPath();
+      ctx.moveTo(x - 16*s, y - 20*s);
+      ctx.quadraticCurveTo(x - 28*s, y - 42*s, x - 20*s, y - 28*s);
+      ctx.stroke();
+
+      // Right ear
+      ctx.beginPath();
+      ctx.moveTo(x + 16*s, y - 20*s);
+      ctx.quadraticCurveTo(x + 28*s, y - 42*s, x + 20*s, y - 28*s);
+      ctx.stroke();
+
+      // Eyes
+      ctx.beginPath();
+      ctx.arc(x - 8*s, y - 13*s, 2.5*s, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(x + 8*s, y - 13*s, 2.5*s, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Nose
+      ctx.beginPath();
+      ctx.ellipse(x, y - 4*s, 3*s, 2*s, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Smile
+      ctx.beginPath();
+      ctx.moveTo(x - 6*s, y + 2*s);
+      ctx.quadraticCurveTo(x, y + 8*s, x + 6*s, y + 2*s);
+      ctx.stroke();
+
+      // Tail
+      ctx.beginPath();
+      ctx.moveTo(x + 28*s, y + 15*s);
+      ctx.quadraticCurveTo(x + 45*s, y - 5*s, x + 40*s, y - 15*s);
+      ctx.stroke();
+
+      // Legs
+      ctx.beginPath();
+      ctx.moveTo(x - 15*s, y + 40*s);
+      ctx.lineTo(x - 15*s, y + 55*s);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x + 15*s, y + 40*s);
+      ctx.lineTo(x + 15*s, y + 55*s);
+      ctx.stroke();
+
+      // Blush
+      ctx.fillStyle = 'rgba(251,207,232,0.5)';
+      ctx.beginPath();
+      ctx.arc(x - 18*s, y - 4*s, 4*s, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(x + 18*s, y - 4*s, 4*s, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
     function drawInfoItem(ctx, x, y, icon, label, value, color) {
       ctx.font = '48px serif';
       ctx.textAlign = 'center';
@@ -1200,28 +1633,36 @@
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, 1080, 1440);
 
+      // Background circles
       ctx.fillStyle = 'rgba(255,182,193,0.4)';
       for (let i = 0; i < 30; i++) {
         const x = Math.random() * 1080, y = Math.random() * 1440, r = Math.random() * 20 + 5;
         ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
       }
 
+      // Hearts
       drawHeart(ctx, 540, 260, 140, 'rgba(255,107,157,0.3)');
       drawHeart(ctx, 540, 260, 120, '#FF6B9D');
 
+      // Draw line-dog in the heart area
+      drawLineDog(ctx, 540, 260, 80);
+
+      // Title
       ctx.fillStyle = '#E91E63';
       ctx.font = 'bold 64px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('我们的约会', 540, 480);
+      ctx.fillText('我们的约会 🐶', 540, 480);
 
+      // Divider
       ctx.strokeStyle = '#FFB6C1';
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(380, 530); ctx.lineTo(700, 530);
+      ctx.moveTo(340, 530); ctx.lineTo(740, 530);
       ctx.stroke();
 
-      const cardY = 600, cardH = 520;
+      // Info card
+      const cardY = 580, cardH = 520;
       ctx.fillStyle = 'rgba(255,255,255,0.85)';
       roundRect(ctx, 90, cardY, 900, cardH, 40);
       ctx.fill();
@@ -1235,15 +1676,17 @@
       drawInfoItem(ctx, 540, startY + gap, '⏰', 'TIME', time, '#FFB347');
       drawInfoItem(ctx, 540, startY + gap*2, food.emoji, 'MENU', food.name + ' · ' + food.description, '#FF6B9D');
 
-      drawHeart(ctx, 540, 1240, 50, '#FFB6C1');
+      // Bottom heart
+      drawHeart(ctx, 540, 1220, 50, '#FFB6C1');
 
+      // Footer text
       ctx.fillStyle = '#E91E63';
       ctx.font = 'bold 40px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('期待与你的每一次相遇', 540, 1340);
+      ctx.fillText('期待与你的每一次相遇', 540, 1310);
       ctx.fillStyle = '#FF8FAB';
       ctx.font = '28px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
-      ctx.fillText('♥ 约会已敲定 ♥', 540, 1390);
+      ctx.fillText('🐶 狗子祝福你们 ♥', 540, 1370);
 
       return canvas;
     }
@@ -1264,7 +1707,7 @@
           navigator.canShare({ files: [new File([blob], filename, { type: 'image/png' })] })) {
         try {
           const file = new File([blob], filename, { type: 'image/png' });
-          await navigator.share({ title: '我们的约会', text: '约会已敲定，一起来吧！', files: [file] });
+          await navigator.share({ title: '我们的约会', text: '约会已敲定，一起来吧！🐶', files: [file] });
           return { method: 'share', success: true };
         } catch(e) {}
       }
@@ -1276,16 +1719,16 @@
       const btn = document.getElementById('btnSave');
       if (btn.disabled) return;
       btn.disabled = true;
-      btn.querySelector('.btn-save-content').innerHTML = '<span class="spinner"></span>生成中...';
+      btn.querySelector('.btn-save-content').innerHTML = '<span class="spinner"></span>狗子生成中...';
       try {
         const canvas = await generateShareImage(dateVal, timeVal, selectedFood);
         const blob = await new Promise(resolve => { canvas.toBlob(b => resolve(b), 'image/png'); });
         if (!blob) { showToast('生成图片失败，请重试', 'error'); return; }
         const result = await shareOrDownload(blob, '我们的约会-' + dateVal + '.png');
-        if (result.method === 'share' && result.success) showToast('已分享成功～');
+        if (result.method === 'share' && result.success) showToast('已分享成功～ 🐶');
         else if (result.method === 'download' && result.success) showToast('已保存到相册/下载完成 🎉');
       } catch(e) {
-        showToast('保存失败了，请稍后再试', 'error');
+        showToast('保存失败了，狗子很抱歉 🐶', 'error');
       } finally {
         btn.disabled = false;
         btn.querySelector('.btn-save-content').innerHTML = '💾 保存约会';

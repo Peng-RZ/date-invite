@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>约会邀请 💕</title>
+  <title>约会邀请 ♥</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -109,7 +109,7 @@
     .step1-title {
       font-size: clamp(22px, 5vw, 30px); font-weight: 700;
       color: #db2777; text-align: center;
-      margin-bottom: 40px; min-height: 3rem; line-height: 1.6; padding: 0 16px;
+      margin-bottom: 16px; min-height: 3rem; line-height: 1.6; padding: 0 16px;
     }
     .type-cursor {
       display: inline-block; width: 2px; height: 1.4em;
@@ -117,6 +117,20 @@
       animation: blink 0.8s step-end infinite;
     }
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    .speech-bubble {
+      background: white; border: 2px solid #fbcfe8; border-radius: 16px;
+      padding: 8px 16px; font-size: 14px; color: #db2777; font-weight: 500;
+      margin-bottom: 16px; opacity: 0; transform: translateY(8px) scale(0.8);
+      transition: all 0.4s ease; box-shadow: 0 2px 8px rgba(236,72,153,0.1);
+      white-space: nowrap; position: relative;
+    }
+    .speech-bubble.show { opacity: 1; transform: translateY(0) scale(1); }
+    .speech-bubble::after {
+      content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+      border-left: 6px solid transparent; border-right: 6px solid transparent;
+      border-top: 6px solid #fbcfe8;
+    }
 
     .button-area {
       position: relative; width: 100%; max-width: 384px;
@@ -161,43 +175,6 @@
       margin-top: 32px; font-size: 14px; color: #f472b6;
       animation: hint-pulse 2s ease-in-out infinite;
     }
-    .speech-bubble {
-      background: white; border: 2px solid #fbcfe8; border-radius: 16px;
-      padding: 8px 16px; font-size: 14px; color: #db2777; font-weight: 500;
-      margin-bottom: 12px; opacity: 0; transform: translateY(8px) scale(0.8);
-      transition: all 0.4s ease; box-shadow: 0 2px 8px rgba(236,72,153,0.1);
-      white-space: nowrap;
-    }
-    .speech-bubble.show { opacity: 1; transform: translateY(0) scale(1); }
-    .chase-overlay {
-      position: fixed; inset: 0; z-index: 60; pointer-events: none;
-      display: none; align-items: center; justify-content: center;
-      background: rgba(253,242,248,0.85);
-      backdrop-filter: blur(4px);
-    }
-    .chase-overlay.active { display: flex; pointer-events: auto; }
-    .chase-content { text-align: center; animation: chase-bounce 0.5s ease infinite; }
-    @keyframes chase-bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-16px);} }
-    .chase-emoji { font-size: 80px; margin-bottom: 16px; }
-    .chase-title { font-size: 24px; font-weight: 700; color: #db2777; margin-bottom: 8px; }
-    .chase-sub { font-size: 15px; color: #f472b6; margin-bottom: 20px; }
-    .btn-surrender {
-      height: 52px; padding: 0 36px; border-radius: 9999px;
-      background: linear-gradient(to right, #f472b6, #ec4899);
-      color: white; font-weight: 700; font-size: 16px;
-      box-shadow: 0 8px 20px -4px rgba(244,114,182,0.5);
-      transition: all 0.2s ease;
-    }
-    .btn-surrender:hover { background: linear-gradient(to right, #ec4899, #db2777); }
-    .btn-surrender:active { transform: scale(0.95); }
-    .food-comment {
-      width: 100%; max-width: 384px; margin-top: 8px; margin-bottom: 16px;
-      padding: 12px 16px; background: white; border-radius: 16px;
-      border: 1px solid #fce7f3; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-      font-size: 13px; color: #831843; line-height: 1.5; text-align: center;
-      opacity: 0; transform: translateY(8px); transition: all 0.3s ease;
-    }
-    .food-comment.show { opacity: 1; transform: translateY(0); }
     @keyframes hint-pulse { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
 
     .confetti-canvas {
@@ -319,7 +296,7 @@
     .food-grid {
       width: 100%; max-width: 448px;
       display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 12px; margin-bottom: 24px;
+      gap: 12px; margin-bottom: 16px;
     }
     .food-card {
       position: relative; display: flex; flex-direction: column; align-items: center;
@@ -361,6 +338,15 @@
     .food-name { font-size: 14px; font-weight: 600; color: #831843; }
     .food-card.selected .food-name { color: #db2777; }
     .food-desc { font-size: 10px; color: #f472b6; }
+
+    .food-tip {
+      width: 100%; max-width: 448px; margin-bottom: 16px;
+      padding: 12px 16px; background: white; border-radius: 16px;
+      border: 1px solid #fce7f3; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      font-size: 13px; color: #831843; line-height: 1.5; text-align: center;
+      opacity: 0; transform: translateY(8px); transition: all 0.3s ease;
+    }
+    .food-tip.show { opacity: 1; transform: translateY(0); }
 
     .btn-random {
       display: flex; align-items: center; gap: 8px;
@@ -491,7 +477,29 @@
       animation: ripple-expand 0.6s ease-out forwards;
       pointer-events: none;
     }
-    @keyframes ripple-expand { to { transform: scale(4); opacity: 0; } }
+    @keyframes ripple-expand { to { transform: scale(4); opacity: 0; }
+
+    .chase-overlay {
+      position: fixed; inset: 0; z-index: 60;
+      display: none; align-items: center; justify-content: center;
+      background: rgba(253,242,248,0.85);
+      backdrop-filter: blur(4px);
+    }
+    .chase-overlay.active { display: flex; }
+    .chase-content { text-align: center; animation: chase-bounce 0.5s ease infinite; }
+    @keyframes chase-bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-16px);} }
+    .chase-emoji { font-size: 80px; margin-bottom: 16px; }
+    .chase-title { font-size: 24px; font-weight: 700; color: #db2777; margin-bottom: 8px; }
+    .chase-sub { font-size: 15px; color: #f472b6; margin-bottom: 20px; }
+    .btn-surrender {
+      height: 52px; padding: 0 36px; border-radius: 9999px;
+      background: linear-gradient(to right, #f472b6, #ec4899);
+      color: white; font-weight: 700; font-size: 16px;
+      box-shadow: 0 8px 20px -4px rgba(244,114,182,0.5);
+      transition: all 0.2s ease;
+    }
+    .btn-surrender:hover { background: linear-gradient(to right, #ec4899, #db2777); }
+    .btn-surrender:active { transform: scale(0.95); }
 
     @media (min-width: 768px) {
       .step1-title { font-size: 30px; }
@@ -514,6 +522,7 @@
     <canvas class="confetti-canvas" id="confettiCanvas"></canvas>
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Chase overlay -->
     <div class="chase-overlay" id="chaseOverlay">
       <div class="chase-content">
         <div class="chase-emoji">😭💕</div>
@@ -531,7 +540,7 @@
           <div class="step1-wrap">
             <h1 class="step1-title" id="typeTitle"></h1>
             <div class="speech-bubble" id="speechBubble">约不约呀？</div>
-            <div class="button-area" id="button-area">
+            <div class="button-area" id="buttonArea">
               <button class="btn-yes left ripple-btn" id="btnYes" aria-label="愿意">愿意 ♥</button>
               <button class="btn-no right ripple-btn" id="btnNo" aria-label="不要">不要</button>
             </div>
@@ -618,7 +627,7 @@
             <h2 class="page-title">想吃点什么？ 🍽️</h2>
             <p class="page-subtitle">选一种你今天想吃的，每种都有小彩蛋哦～</p>
             <div class="food-grid" id="foodGrid"></div>
-            <div class="food-comment" id="foodComment"></div>
+            <div class="food-tip" id="foodTip"></div>
             <button class="btn-random ripple-btn" id="btnRandom">
               <span class="dice">🎲</span>帮我选
             </button>
@@ -641,7 +650,7 @@
               </svg>
             </div>
             <h2 class="page-title">约会敲定啦！</h2>
-            <p class="page-subtitle">保存一下，留个纪念吧 ♥ 期待每一次相遇</p>
+            <p class="page-subtitle">保存一下，留个纪念吧 ♥</p>
             <div class="info-cards" id="infoCards"></div>
             <button class="btn-save ripple-btn" id="btnSave">
               <span class="btn-save-content">💾 保存约会</span>
@@ -656,67 +665,59 @@
 
   <script>
     // ========== Data ==========
-    const FOODS = [
-      { id: '1', name: '火锅', emoji: '🍲', description: '热辣沸腾', tip: '热辣沸腾！记得点鸳鸯锅，总有人不能吃辣～' },
-            { id: '2', name: '烤肉', emoji: '🥓', description: '滋滋冒油', tip: '烤肉！负责翻面的那个人要提前选好哦！' },
-            { id: '3', name: '日料', emoji: '🍣', description: '精致鲜美', tip: '精致鲜美！点多了钱包会哭的，悠着点～' },
-            { id: '4', name: '西餐', emoji: '🍝', description: '浪漫优雅', tip: '烛光晚餐！记得提前订位，不然排队排到怀疑人生' },
-            { id: '5', name: '中餐', emoji: '🥢', description: '家常美味', tip: '红烧排骨！糖醋里脊！口水已经流下来了！' },
-            { id: '6', name: '泰餐', emoji: '🍜', description: '酸辣开胃', tip: '冬阴功汤！酸酸辣辣超开胃，但是辣度要慎重！' },
-            { id: '7', name: '韩餐', emoji: '🍱', description: '丰富多样', tip: '炸鸡配啤酒！经典组合不会出错！' },
-            { id: '8', name: '串串', emoji: '🍢', description: '撸串畅饮', tip: '撸串！最适合边吃边聊的场景！' },
-            { id: '9', name: '小龙虾', emoji: '🦞', description: '宵夜必备', tip: '小龙虾配冰啤！宵夜天花板！但是剥虾壳会弄脏手哦～' },
+    var FOODS = [
+      { id: '1', name: '火锅', emoji: '🍲', description: '热辣沸腾', tip: '记得点鸳鸯锅，总有人不能吃辣～' },
+      { id: '2', name: '烤肉', emoji: '🥓', description: '滋滋冒油', tip: '负责翻面的那个人要提前选好哦！' },
+      { id: '3', name: '日料', emoji: '🍣', description: '精致鲜美', tip: '点多了钱包会哭的，悠着点～' },
+      { id: '4', name: '西餐', emoji: '🍝', description: '浪漫优雅', tip: '烛光晚餐！记得提前订位，不然排队排到怀疑人生' },
+      { id: '5', name: '中餐', emoji: '🥢', description: '家常美味', tip: '红烧排骨！糖醋里脊！口水已经流下来了！' },
+      { id: '6', name: '泰餐', emoji: '🍜', description: '酸辣开胃', tip: '冬阴功汤！酸酸辣辣超开胃，辣度要慎重！' },
+      { id: '7', name: '韩餐', emoji: '🍱', description: '丰富多样', tip: '炸鸡配啤酒！经典组合不会出错！' },
+      { id: '8', name: '串串', emoji: '🍢', description: '撸串畅饮', tip: '最适合边吃边聊的场景，气氛拉满！' },
+      { id: '9', name: '小龙虾', emoji: '🦞', description: '宵夜必备', tip: '小龙虾配冰啤！宵夜天花板！但剥壳会弄脏手哦～' }
     ];
 
-    const NO_TEXTS = ['不要', '再想想嘛', '点不到我', '真的不要吗', '你忍心吗🥺', '再考虑一下嘛', '最后一次机会！'];
-    const DIAGONAL_MAP = { 0: 2, 1: 3, 2: 0, 3: 1 };
+    var NO_TEXTS = ['不要', '再想想嘛', '点不到我', '真的不要吗', '你忍心吗🥺', '再考虑一下嘛', '最后一次机会！'];
+    var BUBBLE_TEXTS = ['约不约呀？', '别点了别点了！', '心碎了💔', '再点我哭了！', '呜呜呜…', '追上你了！'];
+    var DIAGONAL_MAP = { 0: 2, 1: 3, 2: 0, 3: 1 };
 
-    let currentStep = 1;
-    const TOTAL_STEPS = 5;
-    let dateVal = '';
-    let timeVal = '17:00';
-    let selectedFood = null;
+    var currentStep = 1;
+    var TOTAL_STEPS = 5;
+    var dateVal = '';
+    var timeVal = '17:00';
+    var selectedFood = null;
 
     // Step1 state
-    let noTextIndex = 0;
-    let hasMoved = false;
-    let noCorner = 0;
-    let yesScale = 1;
-    let noScale = 1;
-    let brokenHeartId = 0;
-        let randomizing = false;
-        let noClickCount = 0;
-
-        const BUBBLE_TEXTS = [
-          '约不约呀？',
-          '别点了别点了！',
-          '心碎了💔',
-          '再点我哭了！',
-          '呜呜呜…',
-          '追上你了！',
-        ];
+    var noTextIndex = 0;
+    var hasMoved = false;
+    var noCorner = 0;
+    var yesScale = 1;
+    var noScale = 1;
+    var brokenHeartId = 0;
+    var randomizing = false;
+    var noClickCount = 0;
 
     // ========== Utils: Ripple ==========
     function addRipple(e) {
-      const button = e.currentTarget;
-      const rect = button.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      const x = e.clientX - rect.left - size / 2;
-      const y = e.clientY - rect.top - size / 2;
-      const ripple = document.createElement('span');
+      var button = e.currentTarget;
+      var rect = button.getBoundingClientRect();
+      var size = Math.max(rect.width, rect.height);
+      var x = e.clientX - rect.left - size / 2;
+      var y = e.clientY - rect.top - size / 2;
+      var ripple = document.createElement('span');
       ripple.className = 'ripple-effect';
       ripple.style.width = size + 'px';
       ripple.style.height = size + 'px';
       ripple.style.left = x + 'px';
       ripple.style.top = y + 'px';
       button.appendChild(ripple);
-      const remove = () => ripple.remove();
+      var remove = function() { ripple.remove(); };
       ripple.addEventListener('animationend', remove);
       setTimeout(remove, 700);
     }
 
     function attachRipples() {
-      document.querySelectorAll('.ripple-btn').forEach(btn => {
+      document.querySelectorAll('.ripple-btn').forEach(function(btn) {
         if (btn._rippleAttached) return;
         btn._rippleAttached = true;
         btn.addEventListener('click', addRipple);
@@ -727,38 +728,38 @@
     function showToast(message, type, duration) {
       type = type || 'success';
       duration = duration || 2500;
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
+      var container = document.getElementById('toastContainer');
+      var toast = document.createElement('div');
       toast.className = 'toast' + (type === 'error' ? ' error' : '');
       toast.textContent = message;
       container.appendChild(toast);
-      setTimeout(() => {
+      setTimeout(function() {
         toast.classList.add('out');
-        setTimeout(() => toast.remove(), 300);
+        setTimeout(function() { toast.remove(); }, 300);
       }, duration);
     }
 
     // ========== Heart Particles ==========
     function initHeartParticles() {
-      const container = document.getElementById('heartParticles');
-      for (let i = 0; i < 12; i++) {
-        const span = document.createElement('span');
+      var container = document.getElementById('heartParticles');
+      for (var i = 0; i < 12; i++) {
+        var span = document.createElement('span');
         span.className = 'heart-particle';
         span.style.left = Math.random() * 100 + '%';
         span.style.fontSize = (Math.random() * 20 + 12) + 'px';
         span.style.animationDuration = (Math.random() * 8 + 10) + 's';
         span.style.animationDelay = (Math.random() * 12) + 's';
         span.style.opacity = (Math.random() * 0.4 + 0.2);
-        span.textContent = '♥';
+        span.textContent = '\u2665';
         container.appendChild(span);
       }
     }
 
     // ========== Progress Dots ==========
     function initProgressDots() {
-      const container = document.getElementById('progressDots');
-      for (let i = 1; i <= TOTAL_STEPS; i++) {
-        const dot = document.createElement('button');
+      var container = document.getElementById('progressDots');
+      for (var i = 1; i <= TOTAL_STEPS; i++) {
+        var dot = document.createElement('button');
         dot.className = 'dot' + (i === 1 ? ' active' : '');
         dot.type = 'button';
         dot.setAttribute('aria-label', '第 ' + i + ' 步');
@@ -769,9 +770,9 @@
     }
 
     function updateProgressDots(step) {
-      const dots = document.querySelectorAll('#progressDots .dot');
-      dots.forEach((dot, i) => {
-        const s = i + 1;
+      var dots = document.querySelectorAll('#progressDots .dot');
+      dots.forEach(function(dot, i) {
+        var s = i + 1;
         dot.classList.toggle('active', s === step);
         dot.classList.toggle('done', s < step);
       });
@@ -779,11 +780,11 @@
 
     // ========== Page Navigation ==========
     function goToStep(step) {
-      const prev = document.getElementById('step' + currentStep);
-      const next = document.getElementById('step' + step);
+      var prev = document.getElementById('step' + currentStep);
+      var next = document.getElementById('step' + step);
       if (!next) return;
       prev.classList.remove('active');
-      setTimeout(() => { next.classList.add('active'); }, 50);
+      setTimeout(function() { next.classList.add('active'); }, 50);
       currentStep = step;
       updateProgressDots(step);
       if (step === 2) playStep2Animations();
@@ -792,49 +793,51 @@
 
     // ========== Step 1 ==========
     function initStep1() {
-      const title = '你愿意和我一起去约会吗？';
-      const titleEl = document.getElementById('typeTitle');
-      let i = 0;
+      var title = '你愿意和我一起去约会吗？';
+      var titleEl = document.getElementById('typeTitle');
+      var i = 0;
       titleEl.innerHTML = '<span class="type-cursor"></span>';
-      const timer = setInterval(() => {
+      var timer = setInterval(function() {
         i++;
         titleEl.innerHTML = title.slice(0, i) + '<span class="type-cursor"></span>';
         if (i >= title.length) clearInterval(timer);
       }, 120);
 
-      setTimeout(() => {
-        document.getElementById('speechBubble').classList.add('show');
-        setTimeout(() => document.getElementById('speechBubble').classList.remove('show'), 3000);
+      // Show speech bubble after typing finishes
+      setTimeout(function() {
+        var bubble = document.getElementById('speechBubble');
+        bubble.classList.add('show');
+        setTimeout(function() { bubble.classList.remove('show'); }, 3000);
       }, title.length * 120 + 500);
 
       document.getElementById('btnYes').addEventListener('click', handleYesClick);
       document.getElementById('btnNo').addEventListener('click', handleNoClick);
-      document.getElementById('btnSurrender').addEventListener('click', () => {
+      document.getElementById('btnSurrender').addEventListener('click', function() {
         document.getElementById('chaseOverlay').classList.remove('active');
         launchConfetti();
-        setTimeout(() => { goToStep(2); }, 2000);
+        setTimeout(function() { goToStep(2); }, 2000);
       });
       window.addEventListener('resize', handleResize);
     }
 
     function calcCornerPos(corner) {
-      const area = document.getElementById('button-area');
-      const noBtn = document.getElementById('btnNo');
-      const areaRect = area.getBoundingClientRect();
-      const noRect = noBtn.getBoundingClientRect();
-      const padding = 10;
-      let x = padding, y = padding;
+      var area = document.getElementById('buttonArea');
+      var noBtn = document.getElementById('btnNo');
+      var areaRect = area.getBoundingClientRect();
+      var noRect = noBtn.getBoundingClientRect();
+      var padding = 10;
+      var x = padding, y = padding;
       if (corner === 0) { x = padding; y = padding; }
       else if (corner === 1) { x = areaRect.width - noRect.width - padding; y = padding; }
       else if (corner === 2) { x = areaRect.width - noRect.width - padding; y = areaRect.height - noRect.height - padding; }
       else { x = padding; y = areaRect.height - noRect.height - padding; }
-      return { x, y };
+      return { x: x, y: y };
     }
 
     function handleResize() {
       if (!hasMoved) return;
-      const pos = calcCornerPos(noCorner);
-      const btnNo = document.getElementById('btnNo');
+      var pos = calcCornerPos(noCorner);
+      var btnNo = document.getElementById('btnNo');
       btnNo.style.left = pos.x + 'px';
       btnNo.style.top = pos.y + 'px';
     }
@@ -842,50 +845,50 @@
     function handleNoClick(e) {
       noClickCount++;
 
-      // Update bubble
-      const bubble = document.getElementById('speechBubble');
-      const bIdx = Math.min(noClickCount, BUBBLE_TEXTS.length - 1);
+      // Update speech bubble
+      var bubble = document.getElementById('speechBubble');
+      var bIdx = Math.min(noClickCount, BUBBLE_TEXTS.length - 1);
       bubble.textContent = BUBBLE_TEXTS[bIdx];
       bubble.classList.add('show');
-      setTimeout(() => bubble.classList.remove('show'), 2000);
-
-      // 碎心
-      const rect = e.currentTarget.getBoundingClientRect();
-      const areaRect = document.getElementById('button-area').getBoundingClientRect();
-      const id = brokenHeartId++;
-      const bh = document.createElement('span');
-      bh.className = 'broken-heart';
-      bh.style.left = (rect.left - areaRect.left + rect.width / 2) + 'px';
-      bh.style.top = (rect.top - areaRect.top) + 'px';
-      bh.textContent = '💔';
-      document.getElementById('button-area').appendChild(bh);
-      setTimeout(() => bh.remove(), 1200);
-
-      // 换文案
-      noTextIndex = (noTextIndex + 1) % NO_TEXTS.length;
-      e.currentTarget.textContent = NO_TEXTS[noTextIndex];
+      setTimeout(function() { bubble.classList.remove('show'); }, 2000);
 
       // Trigger chase after 5 clicks
       if (noClickCount >= 5) {
-        setTimeout(() => {
+        setTimeout(function() {
           document.getElementById('chaseOverlay').classList.add('active');
         }, 800);
         return;
       }
 
-      // 渐进缩放
+      // Broken heart
+      var rect = e.currentTarget.getBoundingClientRect();
+      var areaRect = document.getElementById('buttonArea').getBoundingClientRect();
+      var id = brokenHeartId++;
+      var bh = document.createElement('span');
+      bh.className = 'broken-heart';
+      bh.style.left = (rect.left - areaRect.left + rect.width / 2) + 'px';
+      bh.style.top = (rect.top - areaRect.top) + 'px';
+      bh.textContent = noClickCount < 3 ? '\uD83D\uDC94' : '\uD83D\uDE2D';
+      document.getElementById('buttonArea').appendChild(bh);
+      setTimeout(function() { bh.remove(); }, 1200);
+
+      // Change text
+      noTextIndex = Math.min(noTextIndex + 1, NO_TEXTS.length - 1);
+      e.currentTarget.textContent = NO_TEXTS[noTextIndex];
+
+      // Progressive scaling
       yesScale = Math.min(yesScale + 0.08, 1.8);
       noScale = Math.max(noScale - 0.05, 0.65);
 
-      const btnYes = document.getElementById('btnYes');
+      var btnYes = document.getElementById('btnYes');
       btnYes.style.setProperty('--yes-scale', yesScale);
       e.currentTarget.style.setProperty('--no-scale', noScale);
 
-      // 旋转抖动
-      const rotateDir = Math.random() > 0.5 ? 5 : -5;
+      // Rotation shake
+      var rotateDir = Math.random() > 0.5 ? 5 : -5;
 
       if (!hasMoved) {
-        const firstCorner = Math.floor(Math.random() * 4);
+        var firstCorner = Math.floor(Math.random() * 4);
         noCorner = firstCorner;
         hasMoved = true;
         btnYes.classList.remove('left');
@@ -893,24 +896,24 @@
         btnYes.style.setProperty('--yes-scale', yesScale);
         e.currentTarget.classList.remove('right');
         e.currentTarget.classList.add('moved');
-        requestAnimationFrame(() => {
-          const pos = calcCornerPos(firstCorner);
+        requestAnimationFrame(function() {
+          var pos = calcCornerPos(firstCorner);
           e.currentTarget.style.left = pos.x + 'px';
           e.currentTarget.style.top = pos.y + 'px';
           e.currentTarget.style.transform = 'scale(' + noScale + ') rotate(' + rotateDir + 'deg)';
         });
       } else {
-        const diag = DIAGONAL_MAP[noCorner];
-        const nextCorner = diag !== noCorner ? diag : (noCorner + 1) % 4;
+        var diag = DIAGONAL_MAP[noCorner];
+        var nextCorner = diag !== noCorner ? diag : (noCorner + 1) % 4;
         noCorner = nextCorner;
-        const pos = calcCornerPos(nextCorner);
+        var pos = calcCornerPos(nextCorner);
         e.currentTarget.style.left = pos.x + 'px';
         e.currentTarget.style.top = pos.y + 'px';
         e.currentTarget.style.transform = 'scale(' + noScale + ') rotate(' + rotateDir + 'deg)';
       }
 
-      setTimeout(() => {
-        const btnNo = document.getElementById('btnNo');
+      setTimeout(function() {
+        var btnNo = document.getElementById('btnNo');
         if (hasMoved) {
           btnNo.style.transform = 'scale(' + noScale + ') rotate(0deg)';
         } else {
@@ -921,24 +924,24 @@
 
     function handleYesClick() {
       launchConfetti();
-      setTimeout(() => { goToStep(2); }, 2000);
+      setTimeout(function() { goToStep(2); }, 2000);
     }
 
     // ========== Confetti ==========
-    let confettiRaf = 0;
+    var confettiRaf = 0;
     function launchConfetti() {
-      const canvas = document.getElementById('confettiCanvas');
-      const ctx = canvas.getContext('2d');
+      var canvas = document.getElementById('confettiCanvas');
+      var ctx = canvas.getContext('2d');
       if (!ctx) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      const COLORS = ['#FF6B9D', '#FFB347', '#FF8FAB', '#FFD93D', '#FF6B6B', '#A8E6CF', '#FFE66D', '#FF9FF3'];
-      const shapes = ['rect', 'circle', 'heart'];
-      const particles = [];
-      for (let i = 0; i < 120; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 8 + 4;
+      var COLORS = ['#FF6B9D', '#FFB347', '#FF8FAB', '#FFD93D', '#FF6B6B', '#A8E6CF', '#FFE66D', '#FF9FF3'];
+      var shapes = ['rect', 'circle', 'heart'];
+      var particles = [];
+      for (var i = 0; i < 120; i++) {
+        var angle = Math.random() * Math.PI * 2;
+        var speed = Math.random() * 8 + 4;
         particles.push({
           x: canvas.width / 2, y: canvas.height / 2,
           vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 3,
@@ -946,23 +949,23 @@
           color: COLORS[Math.floor(Math.random() * COLORS.length)],
           rotation: Math.random() * Math.PI * 2,
           rotationSpeed: (Math.random() - 0.5) * 0.3,
-          shape: shapes[Math.floor(Math.random() * shapes.length)],
+          shape: shapes[Math.floor(Math.random() * shapes.length)]
         });
       }
 
-      const startTime = performance.now();
-      const duration = 2000;
-      const gravity = 0.15;
+      var startTime = performance.now();
+      var duration = 2000;
+      var gravity = 0.15;
 
       function animate(now) {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+        var elapsed = now - startTime;
+        var progress = Math.min(elapsed / duration, 1);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
+        particles.forEach(function(p) {
           p.vy += gravity;
           p.x += p.vx; p.y += p.vy;
           p.rotation += p.rotationSpeed;
-          const alpha = progress < 0.7 ? 1 : 1 - (progress - 0.7) / 0.3;
+          var alpha = progress < 0.7 ? 1 : 1 - (progress - 0.7) / 0.3;
           ctx.globalAlpha = alpha;
           ctx.fillStyle = p.color;
           ctx.save();
@@ -972,7 +975,7 @@
           else if (p.shape === 'circle') {
             ctx.beginPath(); ctx.arc(0, 0, p.size/2, 0, Math.PI*2); ctx.fill();
           } else {
-            const s = p.size;
+            var s = p.size;
             ctx.beginPath();
             ctx.moveTo(0, s * 0.3);
             ctx.bezierCurveTo(0, 0, -s/2, 0, -s/2, s*0.3);
@@ -992,96 +995,98 @@
 
     // ========== Step 2 ==========
     function playStep2Animations() {
-      const blush = document.getElementById('blush');
-      const line1 = document.getElementById('line1');
-      const line2 = document.getElementById('line2');
-      const btn = document.getElementById('btnContinue');
+      var blush = document.getElementById('blush');
+      var line1 = document.getElementById('line1');
+      var line2 = document.getElementById('line2');
+      var btn = document.getElementById('btnContinue');
       blush.classList.remove('show');
       line1.classList.remove('show');
       line2.classList.remove('show');
       btn.classList.remove('show');
-      setTimeout(() => blush.classList.add('show'), 300);
-      setTimeout(() => line1.classList.add('show'), 600);
-      setTimeout(() => line2.classList.add('show'), 1200);
-      setTimeout(() => btn.classList.add('show'), 1800);
+      setTimeout(function() { blush.classList.add('show'); }, 300);
+      setTimeout(function() { line1.classList.add('show'); }, 600);
+      setTimeout(function() { line2.classList.add('show'); }, 1200);
+      setTimeout(function() { btn.classList.add('show'); }, 1800);
     }
 
     // ========== Step 3 ==========
     function initStep3() {
-      const today = new Date();
-      const y = today.getFullYear();
-      const m = String(today.getMonth() + 1).padStart(2, '0');
-      const d = String(today.getDate()).padStart(2, '0');
-      const todayStr = y + '-' + m + '-' + d;
-      const tomorrow = new Date(today);
+      var today = new Date();
+      var y = today.getFullYear();
+      var m = String(today.getMonth() + 1).padStart(2, '0');
+      var d = String(today.getDate()).padStart(2, '0');
+      var todayStr = y + '-' + m + '-' + d;
+      var tomorrow = new Date(today);
       tomorrow.setDate(tomorrow.getDate() + 1);
-      const tomorrowStr = tomorrow.getFullYear() + '-' +
+      var tomorrowStr = tomorrow.getFullYear() + '-' +
         String(tomorrow.getMonth() + 1).padStart(2, '0') + '-' +
         String(tomorrow.getDate()).padStart(2, '0');
 
-      const dateInput = document.getElementById('dateInput');
+      var dateInput = document.getElementById('dateInput');
       dateInput.min = todayStr;
       dateInput.value = dateVal || tomorrowStr;
       dateVal = dateInput.value;
 
-      const timeInput = document.getElementById('timeInput');
+      var timeInput = document.getElementById('timeInput');
       timeInput.value = timeVal;
 
       updateDaysHint();
       updateConfirmBtn();
 
-      dateInput.addEventListener('change', () => {
+      dateInput.addEventListener('change', function() {
         dateVal = dateInput.value;
         updateDaysHint();
         updateConfirmBtn();
       });
-      timeInput.addEventListener('input', () => {
+      timeInput.addEventListener('input', function() {
         timeVal = timeInput.value;
         updateQuickTimesActive();
         updateConfirmBtn();
       });
-      document.querySelectorAll('.quick-time-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+      document.querySelectorAll('.quick-time-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
           timeVal = btn.dataset.time;
           timeInput.value = timeVal;
           updateQuickTimesActive();
           updateConfirmBtn();
         });
       });
-      document.getElementById('btnConfirm').addEventListener('click', () => {
+      document.getElementById('btnConfirm').addEventListener('click', function() {
         if (!isStep3Valid()) return;
         goToStep(4);
       });
     }
 
     function updateQuickTimesActive() {
-      document.querySelectorAll('.quick-time-btn').forEach(btn => {
+      document.querySelectorAll('.quick-time-btn').forEach(function(btn) {
         btn.classList.toggle('active', btn.dataset.time === timeVal);
       });
     }
 
     function updateDaysHint() {
-      const hint = document.getElementById('daysHint');
-      const target = new Date(dateVal);
-      const today = new Date();
+      var hint = document.getElementById('daysHint');
+      var target = new Date(dateVal);
+      var today = new Date();
       today.setHours(0,0,0,0);
       target.setHours(0,0,0,0);
-      const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
-      hint.textContent = diff === 0 ? '就是今天啦！已经开始准备了！' : diff === 1 ? '明天就约会啦！今晚激动得睡不着！' : '距离约会还有 ' + diff + ' 天 💗 已经开始倒计时了！';
+      var diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+      if (diff === 0) hint.textContent = '就是今天啦！已经开始准备了！';
+      else if (diff === 1) hint.textContent = '明天就约会啦！今晚激动得睡不着！';
+      else hint.textContent = '距离约会还有 ' + diff + ' 天 \uD83D\uDC97 已经开始倒计时了！';
     }
 
     function isStep3Valid() {
       if (!dateVal || !timeVal) return false;
-      const today = new Date();
+      var today = new Date();
       today.setHours(0,0,0,0);
-      const target = new Date(dateVal);
+      var target = new Date(dateVal);
       target.setHours(0,0,0,0);
       return target >= today;
     }
 
     function updateConfirmBtn() {
-      const btn = document.getElementById('btnConfirm');
-      const valid = isStep3Valid();
+      var btn = document.getElementById('btnConfirm');
+      var valid = isStep3Valid();
       btn.classList.toggle('enabled', valid);
       btn.classList.toggle('disabled', !valid);
       btn.disabled = !valid;
@@ -1089,10 +1094,10 @@
 
     // ========== Step 4 ==========
     function initStep4() {
-      const grid = document.getElementById('foodGrid');
+      var grid = document.getElementById('foodGrid');
       grid.innerHTML = '';
-      FOODS.forEach(food => {
-        const card = document.createElement('button');
+      FOODS.forEach(function(food) {
+        var card = document.createElement('button');
         card.className = 'food-card ripple-btn';
         card.type = 'button';
         card.setAttribute('aria-label', '选择' + food.name);
@@ -1101,111 +1106,111 @@
           '<span class="food-emoji">' + food.emoji + '</span>' +
           '<span class="food-name">' + food.name + '</span>' +
           '<span class="food-desc">' + food.description + '</span>';
-        card.addEventListener('click', () => selectFood(food, card));
+        card.addEventListener('click', function() { selectFood(food, card); });
         grid.appendChild(card);
       });
       if (selectedFood) {
-        const prev = grid.querySelector('[data-id="' + selectedFood.id + '"]');
+        var prev = grid.querySelector('[data-id="' + selectedFood.id + '"]');
         if (prev) {
           prev.classList.add('selected');
-          prev.insertAdjacentHTML('afterbegin', '<span class="food-check">✓</span><span class="food-glow"></span>');
+          prev.insertAdjacentHTML('afterbegin', '<span class="food-check">\u2713</span><span class="food-glow"></span>');
         }
       }
       document.getElementById('btnRandom').addEventListener('click', handleRandom);
     }
 
+    function showFoodTip(food) {
+      var el = document.getElementById('foodTip');
+      if (!el) return;
+      el.classList.remove('show');
+      setTimeout(function() {
+        el.textContent = '\uD83D\uDCAC ' + food.tip;
+        el.classList.add('show');
+      }, 100);
+    }
+
     function selectFood(food, cardEl) {
       if (randomizing) return;
-      document.querySelectorAll('.food-card').forEach(c => {
+      document.querySelectorAll('.food-card').forEach(function(c) {
         c.classList.remove('selected', 'bounce');
-        const check = c.querySelector('.food-check'); if (check) check.remove();
-        const glow = c.querySelector('.food-glow'); if (glow) glow.remove();
+        var check = c.querySelector('.food-check'); if (check) check.remove();
+        var glow = c.querySelector('.food-glow'); if (glow) glow.remove();
       });
       cardEl.classList.add('selected', 'bounce');
-      cardEl.insertAdjacentHTML('afterbegin', '<span class="food-check">✓</span><span class="food-glow"></span>');
+      cardEl.insertAdjacentHTML('afterbegin', '<span class="food-check">\u2713</span><span class="food-glow"></span>');
       selectedFood = food;
       showFoodTip(food);
-      setTimeout(() => { goToStep(5); }, 1500);
+      setTimeout(function() { goToStep(5); }, 1500);
     }
 
     function handleRandom() {
       if (randomizing) return;
       randomizing = true;
-      const btn = document.getElementById('btnRandom');
+      var btn = document.getElementById('btnRandom');
       btn.classList.add('spin');
-      const cards = document.querySelectorAll('.food-card');
-      const totalSteps = 15;
-      let step = 0;
+      var cards = document.querySelectorAll('.food-card');
+      var totalSteps = 15;
+      var step = 0;
 
       function highlight(idx) {
-        cards.forEach((c, i) => {
+        cards.forEach(function(c, i) {
           if (i === idx) {
             c.classList.add('selected');
             if (!c.querySelector('.food-check')) {
-              c.insertAdjacentHTML('afterbegin', '<span class="food-check">✓</span><span class="food-glow"></span>');
+              c.insertAdjacentHTML('afterbegin', '<span class="food-check">\u2713</span><span class="food-glow"></span>');
             }
           } else {
             c.classList.remove('selected');
-            const check = c.querySelector('.food-check'); if (check) check.remove();
-            const glow = c.querySelector('.food-glow'); if (glow) glow.remove();
+            var check = c.querySelector('.food-check'); if (check) check.remove();
+            var glow = c.querySelector('.food-glow'); if (glow) glow.remove();
           }
         });
       }
 
-      const interval = setInterval(() => {
+      var interval = setInterval(function() {
         step++;
         highlight(Math.floor(Math.random() * FOODS.length));
         if (step >= totalSteps) {
           clearInterval(interval);
-          const finalIdx = Math.floor(Math.random() * FOODS.length);
-          const finalFood = FOODS[finalIdx];
+          var finalIdx = Math.floor(Math.random() * FOODS.length);
+          var finalFood = FOODS[finalIdx];
           highlight(finalIdx);
           cards[finalIdx].classList.add('bounce');
           selectedFood = finalFood;
           showFoodTip(finalFood);
-          setTimeout(() => {
+          setTimeout(function() {
             btn.classList.remove('spin');
             randomizing = false;
             goToStep(5);
-          }, 1500);
+          }, 1200);
         }
       }, 80 + step * 15);
     }
 
-    function showFoodTip(food) {
-      const el = document.getElementById('foodComment');
-      if (!el) return;
-      el.classList.remove('show');
-      setTimeout(() => {
-        el.textContent = '💬 ' + food.tip;
-        el.classList.add('show');
-      }, 100);
-    }
-
     // ========== Step 5 ==========
-    function renderStep5()
+    function renderStep5() {
       if (!selectedFood) return;
-      const container = document.getElementById('infoCards');
+      var container = document.getElementById('infoCards');
       container.innerHTML = '';
-      const items = [
+      var items = [
         {
           type: 'pink', label: 'DATE',
           icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
-          value: formatDisplayDate(dateVal) + ' ' + getWeekday(dateVal),
+          value: formatDisplayDate(dateVal) + ' ' + getWeekday(dateVal)
         },
         {
           type: 'amber', label: 'TIME',
           icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
-          value: timeVal,
+          value: timeVal
         },
         {
           type: 'rose', label: 'MENU',
           icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>',
-          value: selectedFood.emoji + ' ' + selectedFood.name + ' · ' + selectedFood.description,
-        },
+          value: selectedFood.emoji + ' ' + selectedFood.name + ' · ' + selectedFood.description
+        }
       ];
-      items.forEach(item => {
-        const card = document.createElement('div');
+      items.forEach(function(item) {
+        var card = document.createElement('div');
         card.className = 'info-card ' + item.type;
         card.innerHTML =
           '<div class="info-icon ' + item.type + '">' + item.icon + '</div>' +
@@ -1217,12 +1222,12 @@
     }
 
     function formatDisplayDate(dateStr) {
-      const parts = dateStr.split('-');
+      var parts = dateStr.split('-');
       if (parts.length !== 3) return dateStr;
       return parts[0] + '年' + parseInt(parts[1], 10) + '月' + parseInt(parts[2], 10) + '日';
     }
     function getWeekday(dateStr) {
-      const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      var days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
       return days[new Date(dateStr).getDay()] || '';
     }
 
@@ -1231,7 +1236,7 @@
       ctx.save();
       ctx.fillStyle = color;
       ctx.beginPath();
-      const t = size * 0.3;
+      var t = size * 0.3;
       ctx.moveTo(x, y + t);
       ctx.bezierCurveTo(x, y, x - size/2, y, x - size/2, y + t);
       ctx.bezierCurveTo(x - size/2, y + (size + t)/2, x, y + (size + t)/2 + size*0.2, x, y + size);
@@ -1279,18 +1284,18 @@
     }
 
     function formatDate(d) {
-      const p = d.split('-');
+      var p = d.split('-');
       if (p.length !== 3) return d;
       return p[0] + '年' + parseInt(p[1], 10) + '月' + parseInt(p[2], 10) + '日';
     }
 
     async function generateShareImage(date, time, food) {
-      const canvas = document.createElement('canvas');
+      var canvas = document.createElement('canvas');
       canvas.width = 1080; canvas.height = 1440;
-      const ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d');
       if (!ctx) throw new Error('Canvas error');
 
-      const bg = ctx.createLinearGradient(0, 0, 0, 1440);
+      var bg = ctx.createLinearGradient(0, 0, 0, 1440);
       bg.addColorStop(0, '#FFE4EC');
       bg.addColorStop(0.5, '#FFF0F5');
       bg.addColorStop(1, '#FFE8D6');
@@ -1298,9 +1303,9 @@
       ctx.fillRect(0, 0, 1080, 1440);
 
       ctx.fillStyle = 'rgba(255,182,193,0.4)';
-      for (let i = 0; i < 30; i++) {
-        const x = Math.random() * 1080, y = Math.random() * 1440, r = Math.random() * 20 + 5;
-        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+      for (var i = 0; i < 30; i++) {
+        var cx = Math.random() * 1080, cy = Math.random() * 1440, cr = Math.random() * 20 + 5;
+        ctx.beginPath(); ctx.arc(cx, cy, cr, 0, Math.PI * 2); ctx.fill();
       }
 
       drawHeart(ctx, 540, 260, 140, 'rgba(255,107,157,0.3)');
@@ -1318,7 +1323,7 @@
       ctx.moveTo(380, 530); ctx.lineTo(700, 530);
       ctx.stroke();
 
-      const cardY = 600, cardH = 520;
+      var cardY = 600, cardH = 520;
       ctx.fillStyle = 'rgba(255,255,255,0.85)';
       roundRect(ctx, 90, cardY, 900, cardH, 40);
       ctx.fill();
@@ -1327,10 +1332,10 @@
       roundRect(ctx, 90, cardY, 900, cardH, 40);
       ctx.stroke();
 
-      const gap = 140, startY = cardY + 100;
-      drawInfoItem(ctx, 540, startY, '📅', 'DATE', formatDate(date), '#FF8FAB');
-      drawInfoItem(ctx, 540, startY + gap, '⏰', 'TIME', time, '#FFB347');
-      drawInfoItem(ctx, 540, startY + gap*2, food.emoji, 'MENU', food.name + ' · ' + food.description, '#FF6B9D');
+      var gap = 140, startY = cardY + 100;
+      drawInfoItem(ctx, 540, startY, '\uD83D\uDCC5', 'DATE', formatDate(date), '#FF8FAB');
+      drawInfoItem(ctx, 540, startY + gap, '\u23F0', 'TIME', time, '#FFB347');
+      drawInfoItem(ctx, 540, startY + gap*2, food.emoji, 'MENU', food.name + ' \u00B7 ' + food.description, '#FF6B9D');
 
       drawHeart(ctx, 540, 1240, 50, '#FFB6C1');
 
@@ -1340,19 +1345,19 @@
       ctx.fillText('期待与你的每一次相遇', 540, 1340);
       ctx.fillStyle = '#FF8FAB';
       ctx.font = '28px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
-      ctx.fillText('♥ 期待每一次相遇 ♥', 540, 1390);
+      ctx.fillText('\u2665 约会已敲定 \u2665', 540, 1390);
 
       return canvas;
     }
 
     async function downloadImage(blob, filename) {
-      const url = URL.createObjectURL(blob);
+      var url = URL.createObjectURL(blob);
       try {
-        const a = document.createElement('a');
+        var a = document.createElement('a');
         a.href = url; a.download = filename;
         document.body.appendChild(a); a.click(); document.body.removeChild(a);
       } finally {
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
       }
     }
 
@@ -1360,7 +1365,7 @@
       if (typeof navigator.share === 'function' && navigator.canShare &&
           navigator.canShare({ files: [new File([blob], filename, { type: 'image/png' })] })) {
         try {
-          const file = new File([blob], filename, { type: 'image/png' });
+          var file = new File([blob], filename, { type: 'image/png' });
           await navigator.share({ title: '我们的约会', text: '约会已敲定，一起来吧！', files: [file] });
           return { method: 'share', success: true };
         } catch(e) {}
@@ -1370,29 +1375,29 @@
     }
 
     async function handleSave() {
-      const btn = document.getElementById('btnSave');
+      var btn = document.getElementById('btnSave');
       if (btn.disabled) return;
       btn.disabled = true;
       btn.querySelector('.btn-save-content').innerHTML = '<span class="spinner"></span>生成中...';
       try {
-        const canvas = await generateShareImage(dateVal, timeVal, selectedFood);
-        const blob = await new Promise(resolve => { canvas.toBlob(b => resolve(b), 'image/png'); });
+        var canvas = await generateShareImage(dateVal, timeVal, selectedFood);
+        var blob = await new Promise(function(resolve) { canvas.toBlob(function(b) { resolve(b); }, 'image/png'); });
         if (!blob) { showToast('生成图片失败，请重试', 'error'); return; }
-        const result = await shareOrDownload(blob, '我们的约会-' + dateVal + '.png');
+        var result = await shareOrDownload(blob, '我们的约会-' + dateVal + '.png');
         if (result.method === 'share' && result.success) showToast('已分享成功～');
-        else if (result.method === 'download' && result.success) showToast('已保存到相册/下载完成 🎉');
+        else if (result.method === 'download' && result.success) showToast('已保存到相册/下载完成 \uD83C\uDF89');
       } catch(e) {
         showToast('保存失败了，请稍后再试', 'error');
       } finally {
         btn.disabled = false;
-        btn.querySelector('.btn-save-content').innerHTML = '💾 保存约会';
+        btn.querySelector('.btn-save-content').innerHTML = '\uD83D\uDCBE 保存约会';
       }
     }
 
     // ========== Back Buttons ==========
     function initBackButtons() {
-      document.querySelectorAll('[data-back]').forEach(btn => {
-        btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-back]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
           goToStep(parseInt(btn.dataset.back, 10));
         });
       });
@@ -1406,9 +1411,9 @@
       initStep3();
       initStep4();
       initBackButtons();
-      document.getElementById('btnContinue').addEventListener('click', () => goToStep(3));
+      document.getElementById('btnContinue').addEventListener('click', function() { goToStep(3); });
       document.getElementById('btnSave').addEventListener('click', handleSave);
-      setTimeout(() => {
+      setTimeout(function() {
         document.getElementById('step1').classList.add('active');
         document.getElementById('app').classList.add('loaded');
         attachRipples();
@@ -1421,4 +1426,3 @@
   </script>
 </body>
 </html>
-<!-- cache bust -->

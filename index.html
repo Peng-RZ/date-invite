@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>约会邀请 ♥</title>
+  <title>约会邀请 💕</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -30,7 +30,6 @@
     }
     .app.loaded { opacity: 1; }
 
-    /* ===== Heart Particles ===== */
     .heart-particles {
       position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;
     }
@@ -48,7 +47,6 @@
       100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
     }
 
-    /* ===== Progress ===== */
     .progress-wrap {
       position: fixed; top: 16px; left: 0; right: 0; z-index: 30;
       display: flex; justify-content: center; padding-top: 8px;
@@ -70,7 +68,6 @@
       transform: scale(1.25); box-shadow: 0 0 8px rgba(236,72,153,0.4); opacity: 1;
     }
 
-    /* ===== Main Layout ===== */
     main {
       position: relative; z-index: 10;
       display: flex; align-items: center; justify-content: center;
@@ -92,7 +89,6 @@
       position: relative; pointer-events: auto;
     }
 
-    /* ===== Back Button ===== */
     .back-btn {
       position: absolute; top: 16px; left: 16px; z-index: 20;
       display: flex; align-items: center; gap: 4px;
@@ -107,14 +103,13 @@
     .back-btn:hover { background: #fdf2f8; }
     .back-btn svg { width: 20px; height: 20px; }
 
-    /* ===== Step 1 ===== */
     .step1-wrap {
       display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;
     }
     .step1-title {
       font-size: clamp(22px, 5vw, 30px); font-weight: 700;
       color: #db2777; text-align: center;
-      margin-bottom: 24px; min-height: 3rem; line-height: 1.6; padding: 0 16px;
+      margin-bottom: 40px; min-height: 3rem; line-height: 1.6; padding: 0 16px;
     }
     .type-cursor {
       display: inline-block; width: 2px; height: 1.4em;
@@ -123,7 +118,7 @@
     }
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
 
-        .button-area {
+    .button-area {
       position: relative; width: 100%; max-width: 384px;
       height: 256px; margin: 0 16px; touch-action: none;
     }
@@ -166,13 +161,69 @@
       margin-top: 32px; font-size: 14px; color: #f472b6;
       animation: hint-pulse 2s ease-in-out infinite;
     }
+    .speech-bubble {
+      background: white; border: 2px solid #fbcfe8; border-radius: 16px;
+      padding: 8px 16px; font-size: 14px; color: #db2777; font-weight: 500;
+      margin-bottom: 12px; opacity: 0; transform: translateY(8px) scale(0.8);
+      transition: all 0.4s ease; box-shadow: 0 2px 8px rgba(236,72,153,0.1);
+      white-space: nowrap;
+    }
+    .speech-bubble.show { opacity: 1; transform: translateY(0) scale(1); }
+    .chase-overlay {
+      position: fixed; inset: 0; z-index: 60; pointer-events: none;
+      display: none; align-items: center; justify-content: center;
+      background: rgba(253,242,248,0.85);
+      backdrop-filter: blur(4px);
+    }
+    .chase-overlay.active { display: flex; pointer-events: auto; }
+    .chase-content { text-align: center; animation: chase-bounce 0.5s ease infinite; }
+    @keyframes chase-bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-16px);} }
+    .chase-emoji { font-size: 80px; margin-bottom: 16px; }
+    .chase-title { font-size: 24px; font-weight: 700; color: #db2777; margin-bottom: 8px; }
+    .chase-sub { font-size: 15px; color: #f472b6; margin-bottom: 20px; }
+    .btn-surrender {
+      height: 52px; padding: 0 36px; border-radius: 9999px;
+      background: linear-gradient(to right, #f472b6, #ec4899);
+      color: white; font-weight: 700; font-size: 16px;
+      box-shadow: 0 8px 20px -4px rgba(244,114,182,0.5);
+      transition: all 0.2s ease;
+    }
+    .btn-surrender:hover { background: linear-gradient(to right, #ec4899, #db2777); }
+    .btn-surrender:active { transform: scale(0.95); }
+    .food-comment {
+      width: 100%; max-width: 384px; margin-top: 8px; margin-bottom: 16px;
+      padding: 12px 16px; background: white; border-radius: 16px;
+      border: 1px solid #fce7f3; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      font-size: 13px; color: #831843; line-height: 1.5; text-align: center;
+      opacity: 0; transform: translateY(8px); transition: all 0.3s ease;
+    }
+    .food-comment.show { opacity: 1; transform: translateY(0); }
     @keyframes hint-pulse { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
 
-    /* ===== Step 2 ===== */
+    .confetti-canvas {
+      position: fixed; inset: 0; pointer-events: none; z-index: 50;
+    }
+
     .step2-wrap {
       position: relative; display: flex; flex-direction: column;
       align-items: center; justify-content: center; width: 100%; padding: 0 16px;
     }
+    .shy-emoji-wrap {
+      position: relative; margin-bottom: 32px;
+      animation: float-y 3s ease-in-out infinite;
+    }
+    .shy-emoji { font-size: clamp(80px, 20vw, 120px); user-select: none; }
+    .blush {
+      position: absolute; transition: opacity 1s ease-in-out; opacity: 0;
+    }
+    .blush.show { opacity: 1; }
+    .blush-cheek {
+      position: absolute; width: 24px; height: 16px; border-radius: 9999px;
+      background: rgba(244,114,182,0.5); filter: blur(4px);
+    }
+    .blush-cheek.left { top: 55%; left: 22%; }
+    .blush-cheek.right { top: 55%; right: 22%; }
+    @keyframes float-y { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
 
     .step2-text { text-align: center; margin-bottom: 40px; }
     .step2-line1, .step2-line2 {
@@ -203,7 +254,6 @@
     }
     @keyframes shine { 0%{transform:translateX(-100%);} 100%{transform:translateX(200%);} }
 
-    /* ===== Step 3 ===== */
     .step3-wrap {
       position: relative; display: flex; flex-direction: column;
       align-items: center; width: 100%; padding: 64px 16px 0;
@@ -262,10 +312,9 @@
       background: #e5e7eb; color: #9ca3af; cursor: not-allowed; box-shadow: none;
     }
 
-    /* ===== Step 4 ===== */
     .step4-wrap {
       position: relative; display: flex; flex-direction: column;
-      align-items: center; width: 100%; padding: 64px 16px 0;
+      align-items: center; width: 100%; padding: 64px 16px 16px;
     }
     .food-grid {
       width: 100%; max-width: 448px;
@@ -313,16 +362,6 @@
     .food-card.selected .food-name { color: #db2777; }
     .food-desc { font-size: 10px; color: #f472b6; }
 
-    .food-dog-comment {
-      width: 100%; max-width: 384px; margin-top: 8px; margin-bottom: 16px;
-      display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px;
-      background: white; border-radius: 16px; border: 1px solid #fce7f3;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-      opacity: 0; transform: translateY(8px); transition: all 0.3s ease;
-    }
-    .food-dog-comment.show { opacity: 1; transform: translateY(0); }
-    .food-dog-comment .comment-text { font-size: 13px; color: #831843; line-height: 1.5; padding-top: 6px; }
-
     .btn-random {
       display: flex; align-items: center; gap: 8px;
       height: 48px; padding: 0 24px; border-radius: 9999px;
@@ -335,14 +374,10 @@
     .btn-random.spin .dice { animation: spin 0.5s linear infinite; }
     @keyframes spin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
 
-    /* ===== Step 5 ===== */
     .step5-wrap {
       position: relative; display: flex; flex-direction: column;
       align-items: center; width: 100%; padding: 64px 16px 24px;
     }
-      50% { transform: translateY(-10px) scale(1.2); opacity: 0.8; }
-    }
-
     .beating-heart {
       position: relative; width: 72px; height: 72px;
       margin-bottom: 24px; margin-top: 8px;
@@ -421,7 +456,6 @@
       margin-top: 16px; font-size: 12px; color: #f472b6; text-align: center;
     }
 
-    /* ===== Toast ===== */
     .toast-container {
       position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
       z-index: 100; display: flex; flex-direction: column; gap: 8px; pointer-events: none;
@@ -449,12 +483,6 @@
       to { opacity: 0; transform: translateY(-12px); }
     }
 
-    /* ===== Confetti Canvas ===== */
-    .confetti-canvas {
-      position: fixed; inset: 0; pointer-events: none; z-index: 50;
-    }
-
-    /* ===== Ripple ===== */
     .ripple-btn { position: relative; overflow: hidden; }
     .ripple-effect {
       position: absolute; border-radius: 50%;
@@ -464,40 +492,6 @@
       pointer-events: none;
     }
     @keyframes ripple-expand { to { transform: scale(4); opacity: 0; } }
-
-    /* ===== Dog chase overlay ===== */
-    .dog-chase-overlay {
-      position: fixed; inset: 0; z-index: 60; pointer-events: none;
-      display: none; align-items: center; justify-content: center;
-      background: rgba(253,242,248,0.6);
-      backdrop-filter: blur(2px);
-    }
-    .dog-chase-overlay.active { display: flex; }
-    .dog-chase-content {
-      text-align: center; pointer-events: auto;
-      animation: chase-bounce 0.6s ease infinite;
-    }
-    @keyframes chase-bounce {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    .dog-chase-content svg { width: 120px; height: 120px; margin-bottom: 16px; }
-    .dog-chase-text {
-      font-size: 22px; font-weight: 700; color: #db2777;
-      margin-bottom: 8px;
-    }
-    .dog-chase-sub {
-      font-size: 15px; color: #f472b6; margin-bottom: 20px;
-    }
-    .btn-surrender {
-      height: 52px; padding: 0 36px; border-radius: 9999px;
-      background: linear-gradient(to right, #f472b6, #ec4899);
-      color: white; font-weight: 700; font-size: 16px;
-      box-shadow: 0 8px 20px -4px rgba(244,114,182,0.5);
-      transition: all 0.2s ease;
-    }
-    .btn-surrender:hover { background: linear-gradient(to right, #ec4899, #db2777); }
-    .btn-surrender:active { transform: scale(0.95); }
 
     @media (min-width: 768px) {
       .step1-title { font-size: 30px; }
@@ -520,33 +514,161 @@
     <canvas class="confetti-canvas" id="confettiCanvas"></canvas>
     <div class="toast-container" id="toastContainer"></div>
 
+    <div class="chase-overlay" id="chaseOverlay">
+      <div class="chase-content">
+        <div class="chase-emoji">😭💕</div>
+        <div class="chase-title">别跑！追上你了！</div>
+        <div class="chase-sub">你点那么多次"不要"，我委屈！投降吧！</div>
+        <button class="btn-surrender" id="btnSurrender">好好好，我愿意 💕</button>
+      </div>
+    </div>
+
+    <main>
+      <div class="step-container" id="stepContainer">
+
+        <!-- Step 1 -->
+        <div class="page" id="step1">
+          <div class="step1-wrap">
+            <h1 class="step1-title" id="typeTitle"></h1>
+            <div class="speech-bubble" id="speechBubble">约不约呀？</div>
+            <div class="button-area" id="button-area">
+              <button class="btn-yes left ripple-btn" id="btnYes" aria-label="愿意">愿意 ♥</button>
+              <button class="btn-no right ripple-btn" id="btnNo" aria-label="不要">不要</button>
+            </div>
+            <p class="hint-text">（提示：试试点"不要"？）</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="page" id="step2">
+          <div class="step2-wrap">
+            <button class="back-btn ripple-btn" data-back="1" aria-label="返回">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>返回</span>
+            </button>
+            <div class="shy-emoji-wrap">
+              <div class="shy-emoji">😊</div>
+              <div class="blush" id="blush">
+                <div class="blush-cheek left"></div>
+                <div class="blush-cheek right"></div>
+              </div>
+            </div>
+            <div class="step2-text">
+              <p class="step2-line1" id="line1">太棒啦！🎉</p>
+              <p class="step2-line2" id="line2">高兴得原地转圈圈～</p>
+            </div>
+            <button class="btn-continue ripple-btn" id="btnContinue">
+              <span>继续 →</span>
+              <span class="shine"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="page" id="step3">
+          <div class="step3-wrap">
+            <button class="back-btn ripple-btn" data-back="2" aria-label="返回">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>返回</span>
+            </button>
+            <h2 class="page-title">选个时间吧 📅</h2>
+            <p class="page-subtitle">挑一个你方便的日子和时间</p>
+            <div class="form-wrap">
+              <div class="form-group">
+                <label for="dateInput" class="form-label">日期</label>
+                <input type="date" id="dateInput" class="form-input" />
+                <p class="days-hint" id="daysHint">距离约会还有 1 天 💗</p>
+              </div>
+              <div class="form-group">
+                <label for="timeInput" class="form-label">时间</label>
+                <input type="time" id="timeInput" class="form-input" value="17:00" />
+                <div class="quick-times" id="quickTimes">
+                  <button class="quick-time-btn ripple-btn" data-time="12:00">
+                    <span class="emoji">🍱</span><span class="label">午餐</span><span class="time">12:00</span>
+                  </button>
+                  <button class="quick-time-btn ripple-btn" data-time="15:00">
+                    <span class="emoji">🍰</span><span class="label">下午茶</span><span class="time">15:00</span>
+                  </button>
+                  <button class="quick-time-btn ripple-btn active" data-time="17:00">
+                    <span class="emoji">🍽️</span><span class="label">晚餐</span><span class="time">17:00</span>
+                  </button>
+                  <button class="quick-time-btn ripple-btn" data-time="21:00">
+                    <span class="emoji">🌙</span><span class="label">夜宵</span><span class="time">21:00</span>
+                  </button>
+                </div>
+              </div>
+              <button class="btn-confirm disabled ripple-btn" id="btnConfirm" disabled>确认 ✓</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="page" id="step4">
+          <div class="step4-wrap">
+            <button class="back-btn ripple-btn" data-back="3" aria-label="返回">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>返回</span>
+            </button>
+            <h2 class="page-title">想吃点什么？ 🍽️</h2>
+            <p class="page-subtitle">选一种你今天想吃的，每种都有小彩蛋哦～</p>
+            <div class="food-grid" id="foodGrid"></div>
+            <div class="food-comment" id="foodComment"></div>
+            <button class="btn-random ripple-btn" id="btnRandom">
+              <span class="dice">🎲</span>帮我选
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="page" id="step5">
+          <div class="step5-wrap">
+            <button class="back-btn ripple-btn" data-back="4" aria-label="返回">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>返回</span>
+            </button>
+            <div class="beating-heart">
+              <div class="heart-glow"></div>
+              <svg class="heart-svg" viewBox="0 0 24 24" fill="#FF6B9D" aria-hidden="true">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </div>
+            <h2 class="page-title">约会敲定啦！</h2>
+            <p class="page-subtitle">保存一下，留个纪念吧 ♥ 期待每一次相遇</p>
+            <div class="info-cards" id="infoCards"></div>
+            <button class="btn-save ripple-btn" id="btnSave">
+              <span class="btn-save-content">💾 保存约会</span>
+            </button>
+            <p class="save-hint">图片为 1080×1440 高清，可分享给朋友哦</p>
+          </div>
+        </div>
+
+      </div>
     </main>
   </div>
 
   <script>
     // ========== Data ==========
     const FOODS = [
-      { id: '1', name: '火锅', emoji: '🍲', description: '热辣沸腾', dogComment: '狗子闻到辣味就流口水了！但是只能吃清汤锅底汪～' },
-      { id: '2', name: '烤肉', emoji: '🥓', description: '滋滋冒油', dogComment: '烤肉！狗子最爱！能分我一块吗？汪汪！' },
-      { id: '3', name: '日料', emoji: '🍣', description: '精致鲜美', dogComment: '三文鱼…狗子的最爱之一！记得点一份给狗子打包汪～' },
-      { id: '4', name: '西餐', emoji: '🍝', description: '浪漫优雅', dogComment: '烛光晚餐！狗子在旁边当电灯泡会不会太亮？💡' },
-      { id: '5', name: '中餐', emoji: '🥢', description: '家常美味', dogComment: '红烧排骨！糖醋里脊！狗子已经开始摇尾巴了！' },
-      { id: '6', name: '泰餐', emoji: '🍜', description: '酸辣开胃', dogComment: '冬阴功汤？狗子不太能吃辣…但你们开心就好汪' },
-      { id: '7', name: '韩餐', emoji: '🍱', description: '丰富多样', dogComment: '炸鸡配啤酒！狗子负责吃鸡骨头可以吗？' },
-      { id: '8', name: '串串', emoji: '🍢', description: '撸串畅饮', dogComment: '撸串！狗子最擅长的就是蹲在旁边等掉落的肉串！' },
-      { id: '9', name: '小龙虾', emoji: '🦞', description: '宵夜必备', dogComment: '小龙虾配冰啤！狗子帮你剥虾壳好不好？（其实狗子也不会剥）' },
+      { id: '1', name: '火锅', emoji: '🍲', description: '热辣沸腾', tip: '热辣沸腾！记得点鸳鸯锅，总有人不能吃辣～' },
+            { id: '2', name: '烤肉', emoji: '🥓', description: '滋滋冒油', tip: '烤肉！负责翻面的那个人要提前选好哦！' },
+            { id: '3', name: '日料', emoji: '🍣', description: '精致鲜美', tip: '精致鲜美！点多了钱包会哭的，悠着点～' },
+            { id: '4', name: '西餐', emoji: '🍝', description: '浪漫优雅', tip: '烛光晚餐！记得提前订位，不然排队排到怀疑人生' },
+            { id: '5', name: '中餐', emoji: '🥢', description: '家常美味', tip: '红烧排骨！糖醋里脊！口水已经流下来了！' },
+            { id: '6', name: '泰餐', emoji: '🍜', description: '酸辣开胃', tip: '冬阴功汤！酸酸辣辣超开胃，但是辣度要慎重！' },
+            { id: '7', name: '韩餐', emoji: '🍱', description: '丰富多样', tip: '炸鸡配啤酒！经典组合不会出错！' },
+            { id: '8', name: '串串', emoji: '🍢', description: '撸串畅饮', tip: '撸串！最适合边吃边聊的场景！' },
+            { id: '9', name: '小龙虾', emoji: '🦞', description: '宵夜必备', tip: '小龙虾配冰啤！宵夜天花板！但是剥虾壳会弄脏手哦～' },
     ];
 
-    const NO_TEXTS = ['不要', '再想想嘛', '点不到我', '真的不要吗', '狗子委屈了', '你忍心吗🥺', '汪…汪…😭'];
-    const DOG_BUBBLES = [
-      '汪！约不约？',
-      '别点了别点了！',
-      '狗子心碎了💔',
-      '再点狗子哭了！',
-      '呜呜呜…',
-      '狗子追你了！',
-      '追上了！投降吧！',
-    ];
+    const NO_TEXTS = ['不要', '再想想嘛', '点不到我', '真的不要吗', '你忍心吗🥺', '再考虑一下嘛', '最后一次机会！'];
     const DIAGONAL_MAP = { 0: 2, 1: 3, 2: 0, 3: 1 };
 
     let currentStep = 1;
@@ -562,7 +684,17 @@
     let yesScale = 1;
     let noScale = 1;
     let brokenHeartId = 0;
-    let randomizing = false;
+        let randomizing = false;
+        let noClickCount = 0;
+
+        const BUBBLE_TEXTS = [
+          '约不约呀？',
+          '别点了别点了！',
+          '心碎了💔',
+          '再点我哭了！',
+          '呜呜呜…',
+          '追上你了！',
+        ];
 
     // ========== Utils: Ripple ==========
     function addRipple(e) {
@@ -670,13 +802,23 @@
         if (i >= title.length) clearInterval(timer);
       }, 120);
 
+      setTimeout(() => {
+        document.getElementById('speechBubble').classList.add('show');
+        setTimeout(() => document.getElementById('speechBubble').classList.remove('show'), 3000);
+      }, title.length * 120 + 500);
+
       document.getElementById('btnYes').addEventListener('click', handleYesClick);
       document.getElementById('btnNo').addEventListener('click', handleNoClick);
+      document.getElementById('btnSurrender').addEventListener('click', () => {
+        document.getElementById('chaseOverlay').classList.remove('active');
+        launchConfetti();
+        setTimeout(() => { goToStep(2); }, 2000);
+      });
       window.addEventListener('resize', handleResize);
     }
 
     function calcCornerPos(corner) {
-      const area = document.getElementById('buttonArea');
+      const area = document.getElementById('button-area');
       const noBtn = document.getElementById('btnNo');
       const areaRect = area.getBoundingClientRect();
       const noRect = noBtn.getBoundingClientRect();
@@ -700,31 +842,46 @@
     function handleNoClick(e) {
       noClickCount++;
 
-      // Broken heart
+      // Update bubble
+      const bubble = document.getElementById('speechBubble');
+      const bIdx = Math.min(noClickCount, BUBBLE_TEXTS.length - 1);
+      bubble.textContent = BUBBLE_TEXTS[bIdx];
+      bubble.classList.add('show');
+      setTimeout(() => bubble.classList.remove('show'), 2000);
+
+      // 碎心
       const rect = e.currentTarget.getBoundingClientRect();
-      const areaRect = document.getElementById('buttonArea').getBoundingClientRect();
+      const areaRect = document.getElementById('button-area').getBoundingClientRect();
       const id = brokenHeartId++;
       const bh = document.createElement('span');
       bh.className = 'broken-heart';
       bh.style.left = (rect.left - areaRect.left + rect.width / 2) + 'px';
       bh.style.top = (rect.top - areaRect.top) + 'px';
-      bh.textContent = noClickCount < 3 ? '💔' : '😭';
-      document.getElementById('buttonArea').appendChild(bh);
+      bh.textContent = '💔';
+      document.getElementById('button-area').appendChild(bh);
       setTimeout(() => bh.remove(), 1200);
 
-      // Update text
-      noTextIndex = Math.min(noTextIndex + 1, NO_TEXTS.length - 1);
+      // 换文案
+      noTextIndex = (noTextIndex + 1) % NO_TEXTS.length;
       e.currentTarget.textContent = NO_TEXTS[noTextIndex];
 
-      // Progressive scaling
-      yesScale = Math.min(yesScale + 0.08, 2.0);
-      noScale = Math.max(noScale - 0.05, 0.55);
+      // Trigger chase after 5 clicks
+      if (noClickCount >= 5) {
+        setTimeout(() => {
+          document.getElementById('chaseOverlay').classList.add('active');
+        }, 800);
+        return;
+      }
+
+      // 渐进缩放
+      yesScale = Math.min(yesScale + 0.08, 1.8);
+      noScale = Math.max(noScale - 0.05, 0.65);
 
       const btnYes = document.getElementById('btnYes');
       btnYes.style.setProperty('--yes-scale', yesScale);
       e.currentTarget.style.setProperty('--no-scale', noScale);
 
-      // Button movement
+      // 旋转抖动
       const rotateDir = Math.random() > 0.5 ? 5 : -5;
 
       if (!hasMoved) {
@@ -835,15 +992,18 @@
 
     // ========== Step 2 ==========
     function playStep2Animations() {
+      const blush = document.getElementById('blush');
       const line1 = document.getElementById('line1');
       const line2 = document.getElementById('line2');
       const btn = document.getElementById('btnContinue');
+      blush.classList.remove('show');
       line1.classList.remove('show');
       line2.classList.remove('show');
       btn.classList.remove('show');
-      setTimeout(() => line1.classList.add('show'), 300);
-      setTimeout(() => line2.classList.add('show'), 900);
-      setTimeout(() => btn.classList.add('show'), 1500);
+      setTimeout(() => blush.classList.add('show'), 300);
+      setTimeout(() => line1.classList.add('show'), 600);
+      setTimeout(() => line2.classList.add('show'), 1200);
+      setTimeout(() => btn.classList.add('show'), 1800);
     }
 
     // ========== Step 3 ==========
@@ -907,9 +1067,7 @@
       today.setHours(0,0,0,0);
       target.setHours(0,0,0,0);
       const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
-      if (diff === 0) hint.textContent = '就是今天啦！🐶 狗子已经开始准备了！';
-      else if (diff === 1) hint.textContent = '明天就约会啦！🐶 狗子今晚激动得睡不着！';
-      else hint.textContent = '距离约会还有 ' + diff + ' 天 💗 狗子已经开始倒计时了！';
+      hint.textContent = diff === 0 ? '就是今天啦！已经开始准备了！' : diff === 1 ? '明天就约会啦！今晚激动得睡不着！' : '距离约会还有 ' + diff + ' 天 💗 已经开始倒计时了！';
     }
 
     function isStep3Valid() {
@@ -956,16 +1114,6 @@
       document.getElementById('btnRandom').addEventListener('click', handleRandom);
     }
 
-    function showDogComment(food) {
-      const commentEl = document.getElementById('foodDogComment');
-      const textEl = document.getElementById('commentText');
-      commentEl.classList.remove('show');
-      setTimeout(() => {
-        textEl.textContent = food.dogComment;
-        commentEl.classList.add('show');
-      }, 100);
-    }
-
     function selectFood(food, cardEl) {
       if (randomizing) return;
       document.querySelectorAll('.food-card').forEach(c => {
@@ -976,7 +1124,7 @@
       cardEl.classList.add('selected', 'bounce');
       cardEl.insertAdjacentHTML('afterbegin', '<span class="food-check">✓</span><span class="food-glow"></span>');
       selectedFood = food;
-      showDogComment(food);
+      showFoodTip(food);
       setTimeout(() => { goToStep(5); }, 1500);
     }
 
@@ -1014,18 +1162,28 @@
           highlight(finalIdx);
           cards[finalIdx].classList.add('bounce');
           selectedFood = finalFood;
-          showDogComment(finalFood);
+          showFoodTip(finalFood);
           setTimeout(() => {
             btn.classList.remove('spin');
             randomizing = false;
             goToStep(5);
-          }, 1200);
+          }, 1500);
         }
       }, 80 + step * 15);
     }
 
+    function showFoodTip(food) {
+      const el = document.getElementById('foodComment');
+      if (!el) return;
+      el.classList.remove('show');
+      setTimeout(() => {
+        el.textContent = '💬 ' + food.tip;
+        el.classList.add('show');
+      }, 100);
+    }
+
     // ========== Step 5 ==========
-    function renderStep5() {
+    function renderStep5()
       if (!selectedFood) return;
       const container = document.getElementById('infoCards');
       container.innerHTML = '';
@@ -1139,33 +1297,28 @@
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, 1080, 1440);
 
-      // Background circles
       ctx.fillStyle = 'rgba(255,182,193,0.4)';
       for (let i = 0; i < 30; i++) {
         const x = Math.random() * 1080, y = Math.random() * 1440, r = Math.random() * 20 + 5;
         ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
       }
 
-      // Hearts
       drawHeart(ctx, 540, 260, 140, 'rgba(255,107,157,0.3)');
       drawHeart(ctx, 540, 260, 120, '#FF6B9D');
 
-      // Title
       ctx.fillStyle = '#E91E63';
       ctx.font = 'bold 64px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('我们的约会', 540, 480);
 
-      // Divider
       ctx.strokeStyle = '#FFB6C1';
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(340, 530); ctx.lineTo(740, 530);
+      ctx.moveTo(380, 530); ctx.lineTo(700, 530);
       ctx.stroke();
 
-      // Info card
-      const cardY = 580, cardH = 520;
+      const cardY = 600, cardH = 520;
       ctx.fillStyle = 'rgba(255,255,255,0.85)';
       roundRect(ctx, 90, cardY, 900, cardH, 40);
       ctx.fill();
@@ -1179,17 +1332,15 @@
       drawInfoItem(ctx, 540, startY + gap, '⏰', 'TIME', time, '#FFB347');
       drawInfoItem(ctx, 540, startY + gap*2, food.emoji, 'MENU', food.name + ' · ' + food.description, '#FF6B9D');
 
-      // Bottom heart
-      drawHeart(ctx, 540, 1220, 50, '#FFB6C1');
+      drawHeart(ctx, 540, 1240, 50, '#FFB6C1');
 
-      // Footer text
       ctx.fillStyle = '#E91E63';
       ctx.font = 'bold 40px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('期待与你的每一次相遇', 540, 1310);
+      ctx.fillText('期待与你的每一次相遇', 540, 1340);
       ctx.fillStyle = '#FF8FAB';
       ctx.font = '28px "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
-      ctx.fillText('♥ 约会已敲定 ♥', 540, 1370);
+      ctx.fillText('♥ 期待每一次相遇 ♥', 540, 1390);
 
       return canvas;
     }
@@ -1210,7 +1361,7 @@
           navigator.canShare({ files: [new File([blob], filename, { type: 'image/png' })] })) {
         try {
           const file = new File([blob], filename, { type: 'image/png' });
-          await navigator.share({ title: '我们的约会', text: '约会已敲定，一起来吧！🐶', files: [file] });
+          await navigator.share({ title: '我们的约会', text: '约会已敲定，一起来吧！', files: [file] });
           return { method: 'share', success: true };
         } catch(e) {}
       }

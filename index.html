@@ -23,7 +23,7 @@
       position: relative;
       min-height: 100vh;
       width: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
       background: linear-gradient(135deg, #fdf2f8 0%, #fff1f2 50%, #fffbeb 100%);
       opacity: 0;
       transition: opacity 0.7s ease;
@@ -77,7 +77,8 @@
     .step-container {
       width: 100%; max-width: 448px; margin: 0 auto;
       display: flex; align-items: center; justify-content: center;
-      min-height: calc(100vh - 6rem); padding: 0 16px; position: relative;
+      min-height: calc(100vh - 6rem); padding: 0 12px; position: relative;
+      overflow-x: hidden;
     }
     .page {
       width: 100%; opacity: 0; transform: translateY(20px);
@@ -123,7 +124,7 @@
       padding: 8px 16px; font-size: 14px; color: #db2777; font-weight: 500;
       margin-bottom: 16px; opacity: 0; transform: translateY(8px) scale(0.8);
       transition: all 0.4s ease; box-shadow: 0 2px 8px rgba(236,72,153,0.1);
-      white-space: nowrap; position: relative;
+      max-width: 100%; word-break: break-all;
     }
     .speech-bubble.show { opacity: 1; transform: translateY(0) scale(1); }
     .speech-bubble::after {
@@ -134,7 +135,7 @@
 
     .button-area {
       position: relative; width: 100%; max-width: 384px;
-      height: 256px; margin: 0 16px; touch-action: none;
+      height: 256px; touch-action: none;
     }
     .btn-yes {
       position: absolute; z-index: 20; height: 56px; padding: 0 32px;
@@ -233,7 +234,7 @@
 
     .step3-wrap {
       position: relative; display: flex; flex-direction: column;
-      align-items: center; width: 100%; padding: 64px 16px 0;
+      align-items: center; width: 100%; padding: 56px 4px 0;
     }
     .page-title {
       font-size: 24px; font-weight: 700; color: #db2777;
@@ -242,7 +243,7 @@
     .page-subtitle {
       font-size: 14px; color: #f472b6; text-align: center; margin-bottom: 32px;
     }
-    .form-wrap { width: 100%; max-width: 384px; }
+    .form-wrap { width: 100%; max-width: 384px; padding: 0 4px; }
     .form-group { margin-bottom: 24px; }
     .form-label {
       display: block; font-size: 14px; font-weight: 500;
@@ -291,7 +292,7 @@
 
     .step4-wrap {
       position: relative; display: flex; flex-direction: column;
-      align-items: center; width: 100%; padding: 64px 16px 16px;
+      align-items: center; width: 100%; padding: 56px 4px 8px;
     }
     .food-grid {
       width: 100%; max-width: 448px;
@@ -362,7 +363,7 @@
 
     .step5-wrap {
       position: relative; display: flex; flex-direction: column;
-      align-items: center; width: 100%; padding: 64px 16px 24px;
+      align-items: center; width: 100%; padding: 56px 4px 16px;
     }
     .beating-heart {
       position: relative; width: 72px; height: 72px;
@@ -501,25 +502,28 @@
     .btn-surrender:hover { background: linear-gradient(to right, #ec4899, #db2777); }
     .btn-surrender:active { transform: scale(0.95); }
 
-    @media (max-width: 400px) {
+    @media (max-width: 430px) {
       .step-container { padding: 0 8px; }
-      .step1-title { font-size: 20px; padding: 0 8px; }
+      .step1-title { font-size: 20px; padding: 0 4px; }
       .speech-bubble { font-size: 13px; padding: 6px 12px; }
       .button-area { height: 220px; }
-      .btn-yes, .btn-no { font-size: 16px; height: 50px; padding: 0 24px; }
+      .btn-yes, .btn-no { font-size: 16px; height: 50px; padding: 0 20px; }
       .hint-text { font-size: 13px; margin-top: 24px; }
+      .step3-wrap, .step4-wrap, .step5-wrap { padding-left: 0; padding-right: 0; }
+      .form-wrap { padding: 0; }
       .quick-times { grid-template-columns: repeat(4, 1fr); gap: 6px; }
       .quick-time-btn { padding: 6px 2px; }
       .quick-time-btn .emoji { font-size: 16px; }
       .quick-time-btn .label { font-size: 11px; }
       .food-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-      .food-card { padding: 8px; }
-      .food-emoji { font-size: 28px; }
+      .food-card { padding: 8px 4px; }
+      .food-emoji { font-size: 26px; }
       .food-name { font-size: 12px; }
-      .food-tip { font-size: 12px; padding: 10px 12px; }
-      .info-card { padding: 12px; }
+      .food-tip { font-size: 12px; padding: 10px 8px; }
+      .info-cards { max-width: 100%; }
+      .info-card { padding: 12px 8px; }
       .info-value { font-size: 13px; }
-      .btn-save { font-size: 16px; height: 50px; padding: 0 32px; }
+      .btn-save { font-size: 16px; height: 50px; padding: 0 28px; }
       .chase-emoji { font-size: 60px; }
       .chase-title { font-size: 20px; }
       .chase-sub { font-size: 14px; }
